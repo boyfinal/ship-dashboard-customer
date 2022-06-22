@@ -74,11 +74,16 @@
               class="form-control"
               placeholder="Nhập trọng lượng"
               v-model="productEdit.weight"
+              name="weight"
               min="0"
-              oninput="this.value = Math.abs(this.value)"
+              v-validate="'min:0'"
+              :class="{ 'error-color': errors.has('weight') }"
             />
             <div class="card__w-unit">gram</div>
           </div>
+          <span class="err-span" v-if="errors.has('weight')">{{
+            errors.first('weight')
+          }}</span>
         </div>
 
         <div class="row mb-8">
@@ -90,9 +95,14 @@
               placeholder="Nhập chiều dài"
               v-model="productEdit.length"
               min="0"
-              oninput="this.value = Math.abs(this.value)"
+              name="length"
+              v-validate="'min:0'"
+              :class="{ 'error-color': errors.has('length') }"
             />
             <div class="card__w-unit">cm</div>
+            <span class="err-span" v-if="errors.has('length')">{{
+              errors.first('length')
+            }}</span>
           </div>
 
           <div class="col-4 size">
@@ -102,10 +112,15 @@
               class="form-control"
               placeholder="Nhập chiều rộng"
               v-model="productEdit.width"
+              name="width"
               min="0"
-              oninput="this.value = Math.abs(this.value)"
+              v-validate="'min:0'"
+              :class="{ 'error-color': errors.has('width') }"
             />
             <div class="card__w-unit">cm</div>
+            <span class="err-span" v-if="errors.has('width')">{{
+              errors.first('width')
+            }}</span>
           </div>
 
           <div class="col-4 size">
@@ -115,10 +130,15 @@
               class="form-control"
               placeholder="Nhập chiều cao"
               v-model="productEdit.height"
+              name="height"
               min="0"
-              oninput="this.value = Math.abs(this.value)"
+              v-validate="'min:0'"
+              :class="{ 'error-color': errors.has('height') }"
             />
             <div class="card__w-unit">cm</div>
+            <span class="err-span" v-if="errors.has('height')">{{
+              errors.first('height')
+            }}</span>
           </div>
         </div>
       </template>
@@ -228,5 +248,8 @@ export default {
   .size {
     position: relative;
   }
+}
+.err-span {
+  margin: 0px 5px 0 10px;
 }
 </style>
