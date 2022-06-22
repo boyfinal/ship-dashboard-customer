@@ -75,7 +75,6 @@
               placeholder="Nhập trọng lượng"
               v-model="productEdit.weight"
               name="weight"
-              min="0"
               v-validate="'min:0'"
               :class="{ 'error-color': errors.has('weight') }"
             />
@@ -94,7 +93,6 @@
               class="form-control"
               placeholder="Nhập chiều dài"
               v-model="productEdit.length"
-              min="0"
               name="length"
               v-validate="'min:0'"
               :class="{ 'error-color': errors.has('length') }"
@@ -113,7 +111,6 @@
               placeholder="Nhập chiều rộng"
               v-model="productEdit.width"
               name="width"
-              min="0"
               v-validate="'min:0'"
               :class="{ 'error-color': errors.has('width') }"
             />
@@ -131,7 +128,6 @@
               placeholder="Nhập chiều cao"
               v-model="productEdit.height"
               name="height"
-              min="0"
               v-validate="'min:0'"
               :class="{ 'error-color': errors.has('height') }"
             />

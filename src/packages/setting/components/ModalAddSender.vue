@@ -274,9 +274,7 @@ select {
 .modal-add-sender span {
   color: red;
 }
-input:invalid {
-  border-color: red;
-}
+
 .default-sender {
   position: relative;
 }
