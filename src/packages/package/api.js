@@ -80,4 +80,13 @@ export default {
   countPackagesReturn(payload) {
     return http.get(`/packages/return/count?${buildQueryString(payload)}`)
   },
+  packageReship({ id, ...payload }) {
+    return http.put(`/packages/${id}/reship`, payload)
+  },
+  fetchPackageProducts(id) {
+    return http.get(`/packages/${id}/products`)
+  },
+  packageReshipEstimateCost({ id, ...payload }) {
+    return http.post(`/packages/${id}/reship/estimate-cost`, payload)
+  },
 }

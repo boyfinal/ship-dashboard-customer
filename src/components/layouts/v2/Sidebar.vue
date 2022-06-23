@@ -175,16 +175,16 @@ export default {
             '/packages/create',
             '/packages-return',
           ],
-          // sub: [
-          //   {
-          //     route: '/packages',
-          //     title: 'Đơn hàng',
-          //   },
-          //   {
-          //     route: '/packages-return',
-          //     title: 'Hàng trả về',
-          //   },
-          // ],
+          sub: [
+            {
+              route: '/packages',
+              title: 'Đơn hàng',
+            },
+            {
+              route: '/packages-return',
+              title: 'Hàng trả về',
+            },
+          ],
         },
         {
           title: 'Hóa đơn',

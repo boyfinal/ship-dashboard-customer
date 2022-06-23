@@ -28,13 +28,13 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "packages" */ './views/PackageDetail'),
   },
-  // {
-  //   path: '/packages-return',
-  //   name: 'packages-return',
-  //   meta: {
-  //     title: 'Quản lý đơn hàng trả về',
-  //   },
-  //   component: () =>
-  //     import(/* webpackChunkName: "packages" */ './views/ListPackagesReturn'),
-  // },
+  {
+    path: '/packages-return',
+    name: 'packages-return',
+    meta: {
+      title: 'Quản lý đơn hàng trả về',
+    },
+    component: () =>
+      import(/* webpackChunkName: "packages" */ './views/ListPackagesReturn'),
+  },
 ]

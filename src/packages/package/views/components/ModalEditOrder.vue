@@ -254,7 +254,7 @@
             </div>
             <div class="col-lg-6 col-xl-6 item-gutters">
               <div class="card__w">
-                <div class="card__w-header"> Thông tin sản phẩm </div>
+                <div class="card__w-header"> Chi tiết đơn hàng </div>
                 <div class="card__w-content">
                   <div class="card__w-item" v-if="false">
                     <label class="card__w-label"> Danh sách sản phẩm: </label>

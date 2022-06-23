@@ -180,6 +180,12 @@ $sidebar-width:120px;
             white-space: inherit;
             width: 100%;
             z-index: 9;
+            text-transform: none;
+        }
+    }
+    .p-tooltip.pre {
+        &::after {
+            white-space: pre;
         }
     }
     .jc-sb {

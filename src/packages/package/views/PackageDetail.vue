@@ -184,7 +184,7 @@
               <div class="col-4 p-0">
                 <div class="card-block" id="item_info">
                   <div class="card-header">
-                    <div class="card-title">Thông tin sản phẩm</div>
+                    <div class="card-title">Chi tiết đơn hàng</div>
                   </div>
                   <div class="card-content">
                     <div class="row">

@@ -247,6 +247,37 @@
     }
 }
 
+.table-return-packages {
+    tbody tr td {
+        vertical-align: top;
+        height: auto!important;
+        padding: 10px 5px;
+    }
+
+    .order-number {
+        a {
+            width: calc(100% - 36px);
+        }
+    }
+
+    tr td.action {
+        padding: 10px 5px;
+    }
+
+    tr td {
+        line-height: 36px;
+    }
+
+    .btn-primary {
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 20px;
+    }
+    .btn-primary:disabled {
+        color: #a9e0de;
+    }
+}
+
 
 .list-packages #tbl-packages tr td.action {
     padding: 9px 5px 8px;

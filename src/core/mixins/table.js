@@ -60,24 +60,6 @@ export default {
         )
         .reduce((accumulator, item) => accumulator + item)
     },
-    isChecked() {
-      return function(value) {
-        return (
-          this.action.selected.includes(value) &&
-          this.action.selected &&
-          this.totalSelected > 0
-        )
-      }
-    },
-    isCheckedAll() {
-      return function(value) {
-        return (
-          this.action.selected.includes(value) &&
-          this.action.selected &&
-          this.totalSelected > 0
-        )
-      }
-    },
   },
   data() {
     return {
@@ -175,6 +157,21 @@ export default {
         fee = min
       }
       return roundNumberToTwoDecimalPlaces(+fee, 2)
+    },
+
+    isChecked(value) {
+      return (
+        this.action.selected.includes(value) &&
+        this.action.selected &&
+        this.totalSelected > 0
+      )
+    },
+    isCheckedAll(value) {
+      return (
+        this.action.selected.includes(value) &&
+        this.action.selected &&
+        this.totalSelected > 0
+      )
     },
   },
   watch: {

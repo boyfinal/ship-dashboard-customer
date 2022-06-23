@@ -258,7 +258,7 @@
               <div class="col-lg-6 col-xl-6 item-gutters">
                 <div class="card__w">
                   <div class="card__w-header">
-                    Thông tin sản phẩm
+                    Chi tiết đơn hàng
                   </div>
                   <div class="card__w-content">
                     <div class="card__w-item" v-if="false">

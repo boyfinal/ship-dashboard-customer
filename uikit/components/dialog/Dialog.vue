@@ -113,6 +113,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    onClose: {
+      type: Function,
+      default: () => {},
+    },
     focusOn: {
       type: String,
       default: 'confirm',
@@ -173,6 +177,7 @@ export default {
       this.isActive = false
       // Timeout for the animation complete before destroying
       setTimeout(() => {
+        this.onClose()
         this.$destroy()
         removeElement(this.$el)
       }, 150)

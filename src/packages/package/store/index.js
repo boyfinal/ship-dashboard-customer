@@ -28,6 +28,10 @@ export const COUNT_PACKAGES_HOLDING = 'countPackagesHolding'
 export const FETCH_PACKAGES_RETURN = 'fetchPackagesReturn'
 export const COUNT_PACKAGES_RETURN = 'countPackagesReturn'
 
+export const PACKAGE_RESHIP = 'packageReship'
+export const PACKAGE_RESHIP_ESTIMATE_COST = 'packageReshipEstimateCost'
+export const FETCH_PACKAGE_PRODUCTS = 'fetchPackageProducts'
+
 /**
  * State
  */
@@ -50,6 +54,7 @@ export const state = {
   package_returns: [],
   count_package_return: 0,
   day: 0,
+  package_products: [],
 }
 /**
  * Getters
@@ -97,6 +102,9 @@ export const mutations = {
   },
   [COUNT_PACKAGES_RETURN]: (state, payload) => {
     state.count_package_return = payload.count
+  },
+  [FETCH_PACKAGE_PRODUCTS]: (state, payload) => {
+    state.package_products = payload
   },
 }
 
@@ -307,5 +315,45 @@ export const actions = {
     commit(FETCH_PACKAGES_RETURN, list)
     commit(COUNT_PACKAGES_RETURN, count)
     return result
+  },
+
+  // eslint-disable-next-line
+  async [PACKAGE_RESHIP]({ commit }, payload) {
+    const res = await api.packageReship(payload)
+    if (!res || res.error) {
+      return {
+        error: true,
+        message: res.errorMessage || res.error || res.message || '',
+      }
+    }
+
+    return { error: false, ...res }
+  },
+
+  async [FETCH_PACKAGE_PRODUCTS]({ commit }, payload) {
+    const res = await api.fetchPackageProducts(payload)
+    if (!res || res.error) {
+      commit(FETCH_PACKAGE_PRODUCTS, [])
+      return {
+        error: true,
+        message: res.errorMessage || res.error || res.message || '',
+      }
+    }
+
+    commit(FETCH_PACKAGE_PRODUCTS, res.products || [])
+    return { error: false, ...res }
+  },
+
+  // eslint-disable-next-line
+  async [PACKAGE_RESHIP_ESTIMATE_COST]({ commit }, payload) {
+    const res = await api.packageReshipEstimateCost(payload)
+    if (!res || res.error) {
+      return {
+        error: true,
+        message: res.errorMessage || res.error || res.message || '',
+      }
+    }
+
+    return { error: false, ...res }
   },
 }
