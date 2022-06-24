@@ -328,34 +328,35 @@
       <template slot="footer">
         <div class="modal__edit-order-footer">
           <div class="total-title">
-            Tổng cước:
-            <span class="total-number">{{ 0 | formatPrice }}</span>
-            <div class="text">Bảng giá không áp dụng cho hành trình này!</div>
+            Phí reship dự kiến:
+            <span class="total-number">{{ feeReship | formatPrice }}</span>
+            <div class="text" style="font-size: 11px"
+              >Đây là phí tạm tính, có thể thay đổi theo thời điểm lệnh reship
+              được tạo thành công!</div
+            >
           </div>
           <div class="divider">
             <div class="notch"></div>
             <div class="notch-bt"></div>
           </div>
-          <div class="total-action">
-            <p-button :type="`default`" class="btn" @click="handleClose"
-              >Hủy bỏ</p-button
-            >
+          <div class="total-action justify-content-between">
             <p-button
               class="btn btn-primary mr-2"
               :disabled="isUpdating"
               @click="estimateCostHandle"
+              >Phí reship</p-button
             >
-              <span v-if="feeReship"
-                >Phí reship: {{ feeReship | formatPrice }}</span
+            <div>
+              <p-button :type="`default`" class="btn" @click="handleClose"
+                >Hủy bỏ</p-button
               >
-              <span v-else>Phí reship</span>
-            </p-button>
-            <p-button
-              class="btn btn-primary"
-              :disabled="isUpdating"
-              @click="submitHandle"
-              >Reship</p-button
-            >
+              <p-button
+                class="btn btn-primary"
+                :disabled="isUpdating"
+                @click="submitHandle"
+                >Reship</p-button
+              >
+            </div>
           </div>
         </div>
       </template>
