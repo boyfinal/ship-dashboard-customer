@@ -178,7 +178,7 @@ $sidebar-width:120px;
             font-size: 1.25rem;
             padding: 5px;
             white-space: inherit;
-            width: 100%;
+            width: max-content;
             z-index: 9;
             text-transform: none;
         }
@@ -191,7 +191,6 @@ $sidebar-width:120px;
     .jc-sb {
         justify-content: space-between;
     }
-
 }
 
 .site-menubar-hide {
@@ -199,10 +198,10 @@ $sidebar-width:120px;
         width: calc(100% - 60px);
         margin-left: 60px;
     }
-    .fee,.create__package .page-footer{
+    .fee,
+    .create__package .page-footer {
         width: calc(100% - 60px) !important;
     }
-
 }
 
 .bulk-actions {

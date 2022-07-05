@@ -99,6 +99,7 @@
           <a
             href="javascript:void(0)"
             class="btn btn-primary"
+            style="display: flex;"
             @click="handleSave"
           >
             <span>Lưu</span>

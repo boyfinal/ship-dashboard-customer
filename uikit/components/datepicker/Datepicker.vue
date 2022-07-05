@@ -209,6 +209,8 @@ export default {
     clear() {
       this.dateRange = {}
       this.$emit('clear')
+      this.$refs.picker.start = null
+      this.$refs.picker.end = null
     },
   },
   watch: {

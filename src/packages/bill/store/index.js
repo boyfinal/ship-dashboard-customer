@@ -19,6 +19,7 @@ export const FETCH_RATE_EXCHANGE = 'fetchRateExchange'
 export const FETCH_RATE_EXCHANGE_UPDATE = 'fetchRateExchangeUpdate'
 export const FETCH_PACKAGES = 'fetchPackages'
 export const EXPORT_BILL = 'exportBill'
+export const EXPORT_BILLS = 'exportBills'
 
 export const state = {
   bill: {},
@@ -234,6 +235,23 @@ export const actions = {
   async [EXPORT_BILL]({ commit }, payload) {
     let result = { success: true }
     const response = await api.exportBill(payload)
+
+    if (response.error || response.message) {
+      result = {
+        success: false,
+        message: response.errorMessage || response.error || response.message,
+      }
+    } else {
+      result.url = response.download
+    }
+
+    return result
+  },
+
+  // eslint-disable-next-line no-unused-vars
+  async [EXPORT_BILLS]({ commit }, payload) {
+    let result = { success: true }
+    const response = await api.exportBills(payload)
 
     if (response.error || response.message) {
       result = {

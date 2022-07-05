@@ -30,6 +30,13 @@
                   endDate: filter.end_date,
                 }"
               ></p-datepicker>
+
+              <button
+                class="btn-primary btn page-header_button ml-7"
+                @click="onOpenModal"
+              >
+                <span>Xuất hóa đơn </span>
+              </button>
             </div>
           </div>
           <div class="page-content">
@@ -115,6 +122,13 @@
         </div>
       </div>
     </div>
+
+    <ModalSearch
+      :visible.sync="isVisibleModalSearch"
+      :filterPage="filter"
+      @export="handleExportBill"
+    >
+    </ModalSearch>
   </div>
 </template>
 
@@ -124,17 +138,19 @@ import mixinRoute from '@core/mixins/route'
 import mixinTable from '@core/mixins/table'
 import EmptySearchResult from '@components/shared/EmptySearchResult'
 import { date, dateFormat } from '@core/utils/datetime'
-import { EXPORT_BILL, FETCH_BILL_LIST } from '../store'
+import { EXPORT_BILL, FETCH_BILL_LIST, EXPORT_BILLS } from '../store'
 import { SET_LOADING } from '../../package/store'
 import mixinDownload from '@/packages/shared/mixins/download'
 import PTooltip from '../../../../uikit/components/tooltip/Tooltip'
 import { BillCreate, BillPay, BillRefund } from '../constants'
+import ModalSearch from './components/ModalSearch'
 export default {
   name: 'ListBills',
   mixins: [mixinRoute, mixinTable, mixinDownload],
   components: {
     PTooltip,
     EmptySearchResult,
+    ModalSearch,
   },
   computed: {
     ...mapState('bill', {
@@ -156,6 +172,7 @@ export default {
       BillCreate: BillCreate,
       BillPay: BillPay,
       BillRefund: BillRefund,
+      isVisibleModalSearch: false,
     }
   },
 
@@ -163,7 +180,7 @@ export default {
     this.filter = this.getRouteQuery()
   },
   methods: {
-    ...mapActions('bill', [FETCH_BILL_LIST, EXPORT_BILL]),
+    ...mapActions('bill', [FETCH_BILL_LIST, EXPORT_BILL, EXPORT_BILLS]),
     ...mapActions('package', [SET_LOADING]),
 
     async init() {
@@ -199,6 +216,31 @@ export default {
       this.filter.page = 1
       this.$set(this.filter, 'search', e.target.value.trim())
     },
+    async handleExportBill(filter) {
+      let params = {
+        package: filter.status_arr.includes('package') ? 'true' : '',
+        extra: filter.status_arr.includes('extra') ? 'true' : '',
+        start_date: filter.start_date,
+        end_date: filter.end_date,
+      }
+      // this.filter = { ...params }
+
+      this[SET_LOADING](true)
+      const result = await this[EXPORT_BILLS](params)
+      if (!result.success) {
+        this.$toast.open({
+          type: 'error',
+          message: result.message,
+          duration: 3000,
+        })
+        this[SET_LOADING](false)
+        this.isVisibleModalSearch = false
+        return
+      }
+      this[SET_LOADING](false)
+      this.downloadBill(result.url, 'bills', result.url.split('/')[1])
+      this.isVisibleModalSearch = false
+    },
     handleStatus(item) {
       let today = dateFormat(new Date())
       let itemDay = dateFormat(item.created_at)
@@ -228,6 +270,9 @@ export default {
       }
       this[SET_LOADING](false)
       this.downloadBill(result.url, 'bills', result.url.split('/')[1])
+    },
+    onOpenModal() {
+      this.isVisibleModalSearch = true
     },
   },
 

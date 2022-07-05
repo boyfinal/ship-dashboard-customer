@@ -26,7 +26,7 @@
                   <button
                     @click="handleExport"
                     :disabled="isVisibleExport"
-                    class="btn-primary btn"
+                    class="btn-primary btn "
                     v-if="handleStatus(bill) != BillCreate && !isEmptyBill"
                   >
                     <img src="~@/assets/img/arrow-down.svg" />
@@ -429,7 +429,7 @@ export default {
 .p-tooltip:after {
   height: auto;
   word-break: break-word;
-  width: 250%;
+  // width: 250%;
   text-align: center;
 }
 </style>

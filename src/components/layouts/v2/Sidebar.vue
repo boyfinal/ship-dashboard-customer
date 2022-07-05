@@ -28,9 +28,7 @@
               <img class="site-menu-icon default" :src="menu.icon" />
               <img class="site-menu-icon active" :src="menu.iconActive" />
               <span class="site-menu-title">{{ menu.title }}</span>
-              <span v-if="menu.tooltip" class="tooltip">{{
-                menu.tooltip
-              }}</span>
+              <span v-if="!menu.sub" class="tooltip">{{ menu.tooltip }}</span>
             </div>
             <transition name="fade">
               <div class="open-right">
@@ -58,7 +56,7 @@
                             isContainAlias(sub.alias) ||
                             childrenNameRoute(sub.title),
                         }"
-                        class="site-menu-sub-title"
+                        class="site-menu-sub-title d-flex"
                       >
                         <img
                           class="default"

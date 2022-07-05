@@ -70,4 +70,7 @@ export default {
   exportBill(payload) {
     return http.get(`/bills/invoice/${payload.code}`)
   },
+  exportBills(payload) {
+    return http.post(`/bills/invoices`, payload)
+  },
 }

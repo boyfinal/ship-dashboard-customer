@@ -9,6 +9,7 @@
               href="#"
               @click.prevent="showModalCreateTemplate"
               class="btn btn-primary"
+              style="display: flex;"
             >
               <span>Tạo Import template</span>
             </a>

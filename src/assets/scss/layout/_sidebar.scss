@@ -348,4 +348,7 @@ $menubar-height:510px;
     .p-tooltip.is-top.is-dark:before {
         border-top: 5px solid #DDF2F2;
     }
+    .p-tooltip.is-top:before, .p-tooltip.is-top:after{
+        left: unset;
+    }
 }
