@@ -48,156 +48,156 @@
               ></inline-svg>
             </a>
           </div>
-          <div class="form-topup" :class="{ hidden: !isTopup }">
-            <span class="title">
-              Vui lòng chuyển tiền tới số tài khoản dưới đây theo nội dung sau:
-            </span>
-            <div class="card">
-              <div class="card-info">
-                <p
-                  >Ngân hàng:<br /><span>{{ bank }}</span>
-                </p>
-                <p
-                  >Tên chủ thẻ:<br /><span>{{ name }}</span>
-                  <copy :value="name"></copy
-                ></p>
-                <p
-                  >Số tài khoản:<br /><span>{{ accountNumber }}</span>
-                  <copy :value="accountNumber"></copy>
-                </p>
-                <p>
-                  Nội dung chuyển khoản:<br />
-                  <span>Nap topup {{ topup.id }}</span>
-                  <copy :value="`Nap topup ${topup.id}`"></copy>
-                </p>
-              </div>
+          <transition name="fade" mode="out-in">
+            <div class="form-topup" v-if="isTopup" key="a">
+              <span class="title">
+                Vui lòng chuyển tiền tới số tài khoản dưới đây theo nội dung
+                sau:
+              </span>
+              <div class="card">
+                <div class="card-info">
+                  <p
+                    >Ngân hàng:<br /><span>{{ bank }}</span>
+                  </p>
+                  <p
+                    >Tên chủ thẻ:<br /><span>{{ name }}</span>
+                    <copy :value="name"></copy
+                  ></p>
+                  <p
+                    >Số tài khoản:<br /><span>{{ accountNumber }}</span>
+                    <copy :value="accountNumber"></copy>
+                  </p>
+                  <p>
+                    Nội dung chuyển khoản:<br />
+                    <span>Nap topup {{ topup.id }}</span>
+                    <copy :value="`Nap topup ${topup.id}`"></copy>
+                  </p>
+                </div>
 
-              <div class="swap_money">
-                <div class="money">
-                  <label class="title d-flex justify-content-between">
-                    <span>Nhập số tiền:</span>
-                  </label>
-                  <div class="input">
-                    <input
-                      id="money"
-                      @input="onChangeAmount"
-                      placeholder="Nhập số tiền"
-                      :value="amount"
-                    />
-                    <span>{{ US_FLAG.name }}</span>
-                    <img :src="US_FLAG.icon" alt="flag" class="flag" />
+                <div class="swap_money">
+                  <div class="money">
+                    <label class="title d-flex justify-content-between">
+                      <span>Nhập số tiền:</span>
+                    </label>
+                    <div class="input">
+                      <input
+                        id="money"
+                        @input="onChangeAmount"
+                        placeholder="Nhập số tiền"
+                        :value="amount"
+                      />
+                      <span>{{ US_FLAG.name }}</span>
+                      <img :src="US_FLAG.icon" alt="flag" class="flag" />
+                    </div>
                   </div>
-                </div>
-                <div @click="swapHandle" class="btn-convert">
-                  <img src="@assets/img/convert.svg" alt="" />
-                </div>
-                <div class="money">
-                  <label class="title">Số tiền tương ứng:</label>
-                  <div class="d-flex">
-                    <div class="w-price">
-                      <span class="price">{{ amountVND }}</span>
-                      <copy :value="amountVND" v-if="amountVND"></copy>
-                      <span class="currency">{{ VN_FLAG.name }}</span>
-                      <img :src="VN_FLAG.icon" alt="flag" class="flag" />
+                  <div @click="swapHandle" class="btn-convert">
+                    <img src="@assets/img/convert.svg" alt="" />
+                  </div>
+                  <div class="money">
+                    <label class="title">Số tiền tương ứng:</label>
+                    <div class="d-flex">
+                      <div class="w-price">
+                        <span class="price">{{ amountVND }}</span>
+                        <copy :value="amountVND" v-if="amountVND"></copy>
+                        <span class="currency">{{ VN_FLAG.name }}</span>
+                        <img :src="VN_FLAG.icon" alt="flag" class="flag" />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="invalid-error" v-if="error == true">
-                {{ errorText }}
-              </div>
-              <div class="mt-24 btn-exchange">
-                <p-button @click.prevent="handlerRecharge" :loading="loading">
-                  Xác nhận
-                </p-button>
-                <div class="info_exchange">
-                  <div class="rate_exchange"
-                    >Tỷ giá chuyển đổi: 1 USD = {{ currencyRate }} VND</div
-                  >
-                  <div class="rate_exchange_updated"
-                    >Ngày cập nhật:
-                    {{ updatedAt | datetime('dd/MM/yyyy') }}</div
-                  >
+                <div class="invalid-error" v-if="error == true">
+                  {{ errorText }}
                 </div>
-              </div>
-            </div>
-          </div>
-          <div
-            class="form-topup"
-            :class="{ hidden: !isPayoneer && !isPingPong }"
-          >
-            <div class="form-title">
-              <p
-                ><span
-                  >Vui lòng chuyển tiền tới địa chỉ:
-                  <strong v-if="isPayoneer"
-                    >trungpq.ftu@gmail.com<copy
-                      :value="`trungpq.ftu@gmail.com`"
-                    ></copy
-                  ></strong>
-                  <strong v-if="isPingPong"
-                    >tungpk@lionnix.com<copy
-                      :value="`tungpk@lionnix.com`"
-                    ></copy
-                  ></strong> </span
-              ></p>
-              <p>
-                Copy <strong>Transaction ID</strong> rồi nhập vào ô phía dưới.
-              </p>
-              <p>Nhấn nút <strong>Xác nhận</strong> để nạp topup.</p>
-              <br />
-            </div>
-            <div class="form-body">
-              <div
-                class="transaction-content"
-                style="margin: 0;display: block;"
-              >
-                <div class="row mb-10">
-                  <div class="col-2 lb-trans">Transaction ID:</div>
-                  <div class="input-trans col-8">
-                    <input
-                      type="text"
-                      class="form-control"
-                      v-model="transactionID"
-                      placeholder="Nhập Transaction ID"
-                    />
-                  </div>
-                </div>
-                <div class="amount row">
-                  <div class="col-2 lb-trans">Nhập số tiền:</div>
-                  <div class="input col-8">
-                    <input
-                      id="money"
-                      @input="onChangeAmount"
-                      placeholder="Nhập số tiền"
-                      :value="amount"
-                      class="form-control"
-                    />
-                    <span>{{ US_FLAG.name }}</span>
+                <div class="mt-24 btn-exchange">
+                  <p-button @click.prevent="handlerRecharge" :loading="loading">
+                    Xác nhận
+                  </p-button>
+                  <div class="info_exchange">
+                    <div class="rate_exchange"
+                      >Tỷ giá chuyển đổi: 1 USD = {{ currencyRate }} VND</div
+                    >
+                    <div class="rate_exchange_updated"
+                      >Ngày cập nhật:
+                      {{ updatedAt | datetime('dd/MM/yyyy') }}</div
+                    >
                   </div>
                 </div>
               </div>
-              <div class="invalid-error" v-if="error == true">
-                {{ errorText }}
+            </div>
+            <div class="form-topup" v-else key="b">
+              <div class="form-title">
+                <p
+                  ><span
+                    >Vui lòng chuyển tiền tới địa chỉ:
+                    <strong v-if="isPayoneer"
+                      >trungpq.ftu@gmail.com<copy
+                        :value="`trungpq.ftu@gmail.com`"
+                      ></copy
+                    ></strong>
+                    <strong v-if="isPingPong"
+                      >tungpk@lionnix.com<copy
+                        :value="`tungpk@lionnix.com`"
+                      ></copy
+                    ></strong> </span
+                ></p>
+                <p>
+                  Copy <strong>Transaction ID</strong> rồi nhập vào ô phía dưới.
+                </p>
+                <p>Nhấn nút <strong>Xác nhận</strong> để nạp topup.</p>
+                <br />
               </div>
-              <div class="accept d-flex mt-24">
-                <p-button
-                  type="primary"
-                  @click="handlerCreateTransaction"
-                  :loading="loading"
+              <div class="form-body">
+                <div
+                  class="transaction-content"
+                  style="margin: 0; display: block"
                 >
-                  Xác nhận
-                </p-button>
-                <div class="note">
-                  <i>
-                    Thời gian xử lý khoảng 15 phút. Nếu tiền không được chuyển
-                    vào topup sau thời gian này, vui lòng liên hệ bộ phận
-                    support của LionBay để được hỗ trợ.</i
+                  <div class="row mb-10">
+                    <div class="col-2 lb-trans">Transaction ID:</div>
+                    <div class="input-trans col-8">
+                      <input
+                        type="text"
+                        class="form-control"
+                        v-model="transactionID"
+                        placeholder="Nhập Transaction ID"
+                      />
+                    </div>
+                  </div>
+                  <div class="amount row">
+                    <div class="col-2 lb-trans">Nhập số tiền:</div>
+                    <div class="input col-8">
+                      <input
+                        id="money"
+                        @input="onChangeAmount"
+                        placeholder="Nhập số tiền"
+                        :value="amount"
+                        class="form-control"
+                      />
+                      <span>{{ US_FLAG.name }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="invalid-error" v-if="error == true">
+                  {{ errorText }}
+                </div>
+                <div class="accept d-flex mt-24">
+                  <p-button
+                    type="primary"
+                    @click="handlerCreateTransaction"
+                    :loading="loading"
                   >
+                    Xác nhận
+                  </p-button>
+                  <div class="note">
+                    <i>
+                      Thời gian xử lý khoảng 15 phút. Nếu tiền không được chuyển
+                      vào topup sau thời gian này, vui lòng liên hệ bộ phận
+                      support của LionBay để được hỗ trợ.</i
+                    >
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          </transition>
         </div>
       </div>
     </div>

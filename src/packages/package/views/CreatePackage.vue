@@ -10,12 +10,10 @@
       <div class="page-content">
         <div class="card">
           <div class="card-body">
-            <div class="row sm-gutters  flex-nowrap">
-              <div class="col-lg-6 col-xl-6 item-gutters ">
+            <div class="row sm-gutters flex-nowrap">
+              <div class="col-lg-6 col-xl-6 item-gutters">
                 <div class="card__w">
-                  <div class="card__w-header">
-                    Người nhận
-                  </div>
+                  <div class="card__w-header"> Người nhận </div>
                   <div class="card__w-content">
                     <div class="card__w-item">
                       <label class="card__w-label">
@@ -40,9 +38,7 @@
                       </div>
                     </div>
                     <div class="card__w-item">
-                      <label class="card__w-label">
-                        Điện thoại:
-                      </label>
+                      <label class="card__w-label"> Điện thoại: </label>
                       <div class="card__w-input">
                         <input
                           placeholder="Nhập số điện thoại"
@@ -104,9 +100,7 @@
                       </div>
                     </div>
                     <div class="card__w-item">
-                      <label class="card__w-label">
-                        Địa chỉ phụ:
-                      </label>
+                      <label class="card__w-label"> Địa chỉ phụ: </label>
                       <div class="card__w-input">
                         <input
                           placeholder="Nhập địa chỉ phụ"
@@ -194,7 +188,14 @@
                 </div>
                 <div class="card__w">
                   <div
-                    class="card__w-header d-flex justify-content-between align-items-center pr-16 pl-16"
+                    class="
+                      card__w-header
+                      d-flex
+                      justify-content-between
+                      align-items-center
+                      pr-16
+                      pl-16
+                    "
                   >
                     Sản phẩm
                     <div class="add-product">
@@ -206,50 +207,56 @@
                   <div class="card__w-content pr-16 pl-16">
                     <div class="card__w-item">
                       <div class="card__w-input ml-0">
-                        <div
-                          class="d-flex product-item"
-                          v-for="(prod, index) in package_prods"
-                          :key="index"
-                        >
-                          <div class="row product-info">
-                            <div class="select-product col-md-7 ">
-                              <multiselect
-                                class="multiselect-custom dropdown-reason"
-                                v-model="product_sku[index]"
-                                :options="product_option"
-                                placeholder="Chọn SKU"
-                                @select="handleSelectProd($event, index)"
-                                @remove="handleRemove(index)"
-                                :custom-label="customLabelProd"
-                              ></multiselect>
-                            </div>
-                            <div class="select-product col-md-5">
-                              <div class="product-name">
-                                {{ prod.name }}
+                        <transition-group name="list" tag="div">
+                          <div
+                            class="d-flex product-item"
+                            v-for="(prod, index) in package_prods"
+                            :key="index"
+                          >
+                            <div class="row product-info">
+                              <div class="select-product col-md-7">
+                                <multiselect
+                                  class="multiselect-custom dropdown-reason"
+                                  v-model="product_sku[index]"
+                                  :options="product_option"
+                                  placeholder="Chọn SKU"
+                                  @select="handleSelectProd($event, index)"
+                                  @remove="handleRemove(index)"
+                                  :custom-label="customLabelProd"
+                                ></multiselect>
                               </div>
+                              <div class="select-product col-md-5">
+                                <div class="product-name">
+                                  {{ prod.name }}
+                                </div>
+                              </div>
+                              <span class="err-span" v-if="prod.err != ''">
+                                {{ prod.err }}
+                              </span>
                             </div>
-                            <span class="err-span" v-if="prod.err != ''">
-                              {{ prod.err }}
-                            </span>
-                          </div>
 
-                          <input
-                            placeholder="Số lượng"
-                            v-model="prod.quantity"
-                            :input="prod.quantity"
-                            class="form-control select-product product-quantity"
-                            name="quantity"
-                            :class="{ 'error-color': errors.has('name') }"
-                          />
-                          <div class="add-product">
-                            <a
-                              @click="handleRemoveProduct(index)"
-                              class="btn btn-remove"
-                            >
-                              <img src="~@assets/img/X 20px.png" />
-                            </a>
+                            <input
+                              placeholder="Số lượng"
+                              v-model="prod.quantity"
+                              :input="prod.quantity"
+                              class="
+                                form-control
+                                select-product
+                                product-quantity
+                              "
+                              name="quantity"
+                              :class="{ 'error-color': errors.has('name') }"
+                            />
+                            <div class="add-product">
+                              <a
+                                @click="handleRemoveProduct(index)"
+                                class="btn btn-remove"
+                              >
+                                <img src="~@assets/img/X 20px.png" />
+                              </a>
+                            </div>
                           </div>
-                        </div>
+                        </transition-group>
                       </div>
                     </div>
                   </div>
@@ -257,14 +264,10 @@
               </div>
               <div class="col-lg-6 col-xl-6 item-gutters">
                 <div class="card__w">
-                  <div class="card__w-header">
-                    Chi tiết đơn hàng
-                  </div>
+                  <div class="card__w-header"> Chi tiết đơn hàng </div>
                   <div class="card__w-content">
                     <div class="card__w-item" v-if="false">
-                      <label class="card__w-label">
-                        Danh sách sản phẩm:
-                      </label>
+                      <label class="card__w-label"> Danh sách sản phẩm: </label>
                       <div class="card__w-input">
                         <multiselect
                           class="multiselect-custom dropdown-reason"
@@ -407,9 +410,7 @@
                   </div>
                 </div>
                 <div class="card__w">
-                  <div class="card__w-header">
-                    Dịch vụ gửi
-                  </div>
+                  <div class="card__w-header"> Dịch vụ gửi </div>
                   <div class="card__w-content">
                     <div class="card__w-item">
                       <label class="card__w-label">

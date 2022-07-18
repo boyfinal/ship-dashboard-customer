@@ -18,17 +18,6 @@
             placeholder="Vui lòng nhập mã tracking, các mã được phân tách nhau bởi dấu enter"
             :class="{ hidden: openTextarea }"
           />
-          <!-- <textarea
-            id="textarea"
-            :class="{ 'input-open': openTextarea }"
-            v-model="code"
-            class="input"
-            :placeholder="
-              `Vui lòng nhập mã tracking được cung cấp bởi LionBay
-Với nhiều mã tracking, các mã được phân cách bởi dấu enter`
-            "
-            @input="onChange"
-          ></textarea> -->
           <modal-tracking
             class="input-multi"
             :class="{ 'input-multi-open': openTextarea }"
@@ -39,13 +28,6 @@ Với nhiều mã tracking, các mã được phân cách bởi dấu enter`
           </modal-tracking>
         </div>
         <div class="button-group">
-          <!-- <button
-            class="btn btn-clear"
-            v-if="openTextarea"
-            :disabled="!code"
-            @click="clearListCode"
-            >Delete all</button
-          > -->
           <button class="btn btn-tracking">
             <img src="~@/assets/img/box-search.png" alt="" /> Track</button
           >

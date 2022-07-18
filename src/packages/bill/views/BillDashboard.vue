@@ -7,7 +7,7 @@
             <div class="col-4">
               <div class="box balance">
                 <img src="@assets/img/walletLg.svg" alt="wallet" />
-                <div class=" ml-24">
+                <div class="ml-24">
                   <p class="title">Số dư trong ví</p>
                   <p class="money">{{ balance | formatPrice }}</p>
                 </div>
@@ -16,7 +16,7 @@
             <div class="col-4">
               <div class="box process-money">
                 <img src="@assets/img/debit.svg" alt="process-money" />
-                <div class=" ml-24">
+                <div class="ml-24">
                   <p class="title">Tiền chưa thanh toán</p>
                   <p class="money"
                     >{{ debit | formatPrice }}
@@ -33,7 +33,7 @@
             <div class="col-4">
               <div class="box holding-money">
                 <img src="@assets/img/time.svg" alt="process-money" />
-                <div class=" ml-24">
+                <div class="ml-24">
                   <p class="title">Tiền chờ xử lý</p>
                   <p class="money">{{ user.holding_money | formatPrice }}</p>
                 </div>
@@ -70,10 +70,12 @@
               >Đơn chờ xử lý</a
             >
           </div>
-          <wallet v-if="isTopup"></wallet>
-          <list-bills v-if="isBill"></list-bills>
-          <transaction v-if="isTransaction"></transaction>
-          <listHoldings v-if="isHolding"></listHoldings>
+          <transition name="fade" mode="out-in">
+            <wallet v-if="isTopup"></wallet>
+            <list-bills v-if="isBill"></list-bills>
+            <transaction v-if="isTransaction"></transaction>
+            <listHoldings v-if="isHolding"></listHoldings>
+          </transition>
         </div>
       </div>
     </div>

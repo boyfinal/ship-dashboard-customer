@@ -13,7 +13,7 @@ $checkbox-inline-gap: 20px !default;
 $color-white:#fff !default;
 $input-border:4px !default;
 $input-disabled-bg:#e9ecef !default;
-$brand-primary:#118394 !default;
+$brand-primary:#00908B !default;
 $brand-danger:red !default;
 $brand-info:#00bcd4 !default;
 $brand-warning:orange !default;
@@ -110,8 +110,7 @@ $cursor-disabled: not-allowed !default;
 // ========================================================================
 @mixin checkbox-variant($color) {
     input[type="checkbox"]:checked+label,
-    input[type="checkbox"]:checked+input[type="hidden"]+label,
-    {
+    input[type="checkbox"]:checked+input[type="hidden"]+label {
         &::before {
             background-color: $color;
             border-color: $color;
@@ -124,8 +123,7 @@ $cursor-disabled: not-allowed !default;
 
 .checkbox-default {
     input[type="checkbox"]:checked+label,
-    input[type="checkbox"]:checked+input[type="hidden"]+label,
-    {
+    input[type="checkbox"]:checked+input[type="hidden"]+label {
         &::before {
             background-color: $color-white;
             border-color: $input-border;
