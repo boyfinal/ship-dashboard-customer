@@ -221,7 +221,7 @@ export const actions = {
         message: res.errorMessage || res.error || res.message,
       }
     }
-    return result
+    return { ...result, ...res }
   },
 
   // eslint-disable-next-line no-unused-vars

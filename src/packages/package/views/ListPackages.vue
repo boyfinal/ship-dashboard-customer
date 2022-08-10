@@ -168,7 +168,8 @@
                           v-model="action.selected"
                           :native-value="item"
                           @input="handleValue($event)"
-                        ></p-checkbox>
+                        >
+                        </p-checkbox>
                       </td>
                       <td class="order-number">
                         <div class="d-flex justify-content-between">
@@ -213,7 +214,7 @@
                         <span class="code">
                           <p-tooltip
                             :label="item.code"
-                            v-if="item.code"
+                            v-if="showPackageCode(item)"
                             size="large"
                             position="top"
                             type="dark"
@@ -235,7 +236,7 @@
                         </span>
 
                         <span class="link">
-                          <span class="svg" v-if="item.code">
+                          <span class="svg" v-if="showPackageCode(item)">
                             <p-tooltip
                               class="item_name"
                               :label="` Copy `"
@@ -303,7 +304,7 @@
                             </p-tooltip>
                           </span>
 
-                          <span class="svg" v-if="item.code">
+                          <span class="svg" v-if="showPackageCode(item)">
                             <p-tooltip
                               class="item_name"
                               :label="` Track `"
@@ -432,7 +433,8 @@
                   :perPage.sync="filter.limit"
                   :current.sync="filter.page"
                   size="sm"
-                ></p-pagination>
+                >
+                </p-pagination>
               </div>
             </template>
             <empty-search-result v-else></empty-search-result>
@@ -527,6 +529,7 @@ import { formatPrice } from '@core/utils/formatter'
 
 import {
   PACKAGE_STATUS_TAB,
+  PACKAGE_STATUS_ARCHIVED,
   PACKAGE_STATUS_CREATED_TEXT,
   PACKAGE_STATUS_RETURN_TEXT,
   PACKAGE_STATUS_EXPIRED_TEXT,
@@ -697,6 +700,12 @@ export default {
     async searchAdvanced(filter) {
       this.filter = { ...filter }
     },
+    showPackageCode(item) {
+      if (item.status === PACKAGE_STATUS_ARCHIVED) {
+        return false
+      }
+      return item.code !== ''
+    },
     convertPrice(item) {
       if (item.status_string == PACKAGE_STATUS_CREATED_TEXT) {
         return this.caculateFee(item.weight) + item.shipping_fee
@@ -741,6 +750,9 @@ export default {
     clearSearchDate() {
       this.filter.end_date = ''
       this.filter.start_date = ''
+      this.filter.search = ''
+      this.filter.search_by = ''
+      this.filter.status_arr = []
       this.filter.page = 1
     },
     async handleImportPackage(file, template) {
@@ -981,22 +993,27 @@ export default {
       }
 
       this.actions.wayBill.loading = true
-      this.result = await this.processPackage(params)
+      const result = await this.processPackage(params)
       this.isVisibleConfirmWayBill = false
       this.actions.wayBill.loading = false
 
-      if (!this.result || !this.result.success) {
+      if (!result || !result.success) {
         return this.$toast.open({
           type: 'error',
-          message: this.result.message,
+          message: result.message,
           duration: 3000,
         })
       }
 
       this.init()
+      let msg = 'Tạo tracking thành công'
+      if (result.promotion_label) {
+        msg =
+          'Đơn hàng đang được xử lý tạo tracking, thông tin xử lý sẽ được cập nhật sau'
+      }
       this.$toast.open({
         type: 'success',
-        message: 'Tạo tracking thành công',
+        message: msg,
         duration: 3000,
       })
     },
@@ -1163,6 +1180,7 @@ export default {
   width: auto !important;
   white-space: pre;
 }
+
 .deactive {
   td {
     color: #cfd0d0;
@@ -1176,9 +1194,11 @@ export default {
     color: #cfd0d0 !important;
   }
 }
+
 .no-pkg-code {
   min-width: 165px;
 }
+
 .no-track-code,
 .no-pkg-code {
   position: relative;
