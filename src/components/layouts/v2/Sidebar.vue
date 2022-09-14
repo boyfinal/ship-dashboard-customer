@@ -231,6 +231,10 @@ export default {
               route: '/setting/label',
               title: 'Customize label',
             },
+            {
+              route: '/setting/prices',
+              title: 'Bảng giá',
+            },
           ],
         },
       ],

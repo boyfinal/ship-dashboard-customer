@@ -11,13 +11,16 @@
               :src="require('../../../../src/assets/img/arrow_left.svg')"
             ></inline-svg>
           </router-link>
-          {{ handleTitle }}</div
-        >
+          {{ handleTitle }}
+        </div>
       </div>
 
       <!--      Start Notifications  -->
       <div class="navbar__header-right d-flex align-items-center">
-        <div class="navbar_header-map-point mr-30">
+        <div
+          class="navbar_header-map-point"
+          :class="{ 'mr-8': promotion, 'mr-30': !promotion }"
+        >
           <button class="btn btn-map-point" @click="handleMapPoint">
             <inline-svg
               :src="
@@ -28,7 +31,19 @@
             <span>Lionbay Point</span>
           </button>
         </div>
-
+        <div class="navbar_header-map-point mr-30" v-if="promotion">
+          <button
+            class="btn btn-map-point"
+            @click="handlePromotions"
+            style="width: 126px;"
+          >
+            <inline-svg
+              :src="require('../../../../src/assets/img/promotion_icon.svg')"
+            >
+            </inline-svg>
+            <span>Promotion</span>
+          </button>
+        </div>
         <div class="navbar__header-noti">
           <p-dropdown :multiple="false" class="">
             <div class="noti__dropdown-icon" slot="trigger">
@@ -72,7 +87,7 @@
                       <!--                        ></inline-svg>-->
                       <!--                      </div>-->
                       <div class="item-text ml-7"
-                        >{{ item.body }}
+                        >{{ item.title }}
                         <div class="item-date">{{
                           item.created_at | datetime('dd/MM/yyyy - HH:mm')
                         }}</div>
@@ -121,8 +136,8 @@
                   v-if="user.user_info && user.user_info.debt_max_amount > 0"
                   >Trả sau</span
                 >
-                <span v-else>Trả trước</span></div
-              >
+                <span v-else>Trả trước</span>
+              </div>
             </div>
           </div>
           <p-dropdown-item>
@@ -133,7 +148,8 @@
               <inline-svg
                 class="navbar__header-icon"
                 :src="require('../../../../src/assets/img/lifebuoy.svg')"
-              ></inline-svg>
+              >
+              </inline-svg>
               Hỏi đáp trợ giúp
             </router-link>
           </p-dropdown-item>
@@ -153,7 +169,8 @@
               <inline-svg
                 class="navbar__header-icon"
                 :src="require('../../../../src/assets/img/Logout.svg')"
-              ></inline-svg>
+              >
+              </inline-svg>
               Đăng xuất
             </router-link>
           </p-dropdown-item>
@@ -166,6 +183,8 @@
       v-if="isVisibleMapPoint"
     >
     </modal-map-point>
+    <modal-promotion v-if="promotion" :visible.sync="isVisiblePromotion">
+    </modal-promotion>
   </nav>
 </template>
 <script>
@@ -188,9 +207,14 @@ import {
 } from '../../../packages/shared/constants'
 import PDropdownItem from '../../../../uikit/components/dropdown/DropdownItem'
 import ModalMapPoint from './ModalMapPoint.vue'
-
+import ModalPromotion from '@components/shared/modal/ModalPromotion'
 export default {
-  components: { PDropdownItem, PDropdown, ModalMapPoint },
+  components: {
+    ModalPromotion,
+    PDropdownItem,
+    PDropdown,
+    ModalMapPoint,
+  },
   mixins: [mixinRoute, mixinTable],
   name: 'Header',
   props: {
@@ -205,6 +229,7 @@ export default {
   computed: {
     ...mapState('shared', {
       isDebt: (state) => state.isDebt,
+      promotion: (state) => state.promotion,
     }),
     ...mapGetters('shared', {
       count: GET_COUNT,
@@ -233,6 +258,7 @@ export default {
       },
       NotificationUnread: NotificationUnread,
       isVisibleMapPoint: false,
+      isVisiblePromotion: false,
     }
   },
   methods: {
@@ -243,6 +269,9 @@ export default {
     ]),
     handleMapPoint() {
       this.isVisibleMapPoint = true
+    },
+    handlePromotions() {
+      this.isVisiblePromotion = true
     },
     async init() {
       const result = await this[FETCH_NOTIFICATIONS](this.filter)
@@ -259,9 +288,16 @@ export default {
     },
     async handelReadNoti(item) {
       if (item.link) {
-        // eslint-disable-next-line no-useless-escape
-        var url = item.link.replace(/(http[s]?:\/\/)?([^\/\s]+(\/)|^[\/])/, '')
-        this.$router.replace({ path: `/${url}` })
+        if (!item.type) {
+          var url = item.link.replace(
+            // eslint-disable-next-line no-useless-escape
+            /(http[s]?:\/\/)?([^\/\s]+(\/)|^[\/])/,
+            ''
+          )
+          this.$router.replace({ path: `/${url}` })
+        } else {
+          window.open(item.link, '_blank')
+        }
       }
       if (item.readed == NotificationRead) return
       const arr = []
@@ -284,11 +320,13 @@ export default {
     font-weight: 600;
     font-size: 10px;
     color: #626363;
+
     i {
       font-size: 4px;
       margin-right: 4px;
       margin-left: 4px;
     }
+
     svg {
       margin: 0 4px 1px 0;
     }

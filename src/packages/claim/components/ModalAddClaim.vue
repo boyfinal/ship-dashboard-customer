@@ -255,6 +255,7 @@ import { UPLOAD_FILE_CLAIM, CREATE_CLAIM } from '../store'
 import ModalConfirm from '@components/shared/modal/ModalConfirm'
 const MAXIMUM_SIZE = 5
 import evenBus from '../../../core/utils/evenBus'
+import { REASON_CATEGORIES } from '../constants'
 
 export default {
   name: 'ModalAddClaim',
@@ -283,24 +284,7 @@ export default {
           type: 'danger',
         },
       },
-      reasons: [
-        {
-          key: 1,
-          name: 'Sửa đơn',
-        },
-        {
-          key: 2,
-          name: 'Phí hóa đơn',
-        },
-        {
-          key: 3,
-          name: ' Không cập nhật trạng thái ',
-        },
-        {
-          key: 4,
-          name: 'Khác',
-        },
-      ],
+      reasons: REASON_CATEGORIES,
       requiredReason: false,
       selectReason: false,
       requiredContent: false,

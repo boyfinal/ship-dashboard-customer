@@ -239,7 +239,12 @@ import {
   UPDATE_MESSAGE_TICKET,
 } from '../store'
 import { FETCH_TICKET } from '@/packages/claim/store'
-import { CLAIM_STATUS_PROCESSED, CLAIM_STATUS_TEXT } from '../constants'
+import {
+  CLAIM_STATUS_PROCESSED,
+  CLAIM_STATUS_TEXT,
+  MAP_REASON_CATEGORY_TEXT,
+  REASON_CATEGORY_OTHER_TEXT,
+} from '../constants'
 import { truncate } from '@core/utils/string'
 import { Upload } from '@kit'
 import { MAXIMUM_SIZE } from '../constants'
@@ -304,17 +309,8 @@ export default {
     },
 
     reason() {
-      const reason = this.claim.category || 4
-      switch (reason) {
-        case 1:
-          return 'Sửa đơn'
-        case 2:
-          return 'Phí hóa đơn'
-        case 3:
-          return 'Không cập nhật trạng thái'
-        default:
-          return 'Khác'
-      }
+      const cat = this.claim.category
+      return MAP_REASON_CATEGORY_TEXT[cat] || REASON_CATEGORY_OTHER_TEXT
     },
 
     statusText() {

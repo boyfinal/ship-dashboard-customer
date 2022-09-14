@@ -20,6 +20,7 @@ import union from 'lodash/union'
 import { NotificationRead } from '../constants'
 export const state = {
   user: {},
+  promotion: null,
   addresses: [],
   isDebt: false,
   notifications: [],
@@ -28,6 +29,7 @@ export const state = {
   countNotiAll: 0,
   warehouses: [],
   configs: {},
+  typeStatus: [],
 }
 
 export const getters = {
@@ -55,7 +57,8 @@ export const getters = {
 
 export const mutations = {
   [GET_USER]: (state, payload) => {
-    state.user = payload
+    state.user = payload.user
+    state.promotion = payload.promotion
   },
   [GET_CONFIGS]: (state, payload) => {
     state.configs = payload
@@ -80,7 +83,8 @@ export const mutations = {
     state.countNoti = payload
   },
   [COUNT_NOTIFICATIONS_ALL]: (state, payload) => {
-    state.countNotiAll = payload
+    state.countNotiAll = payload.count
+    state.typeStatus = payload.status
   },
   [PUSH_NOTIFICATION]: (state, payload) => {
     state.countNoti++
@@ -127,7 +131,7 @@ export const actions = {
       response.user = {}
     }
 
-    commit(GET_USER, response.user)
+    commit(GET_USER, response)
     return result
   },
 
@@ -190,7 +194,7 @@ export const actions = {
     let result = { success: true }
     let [list, count] = await Promise.all([
       api.fetchNotifications(payload),
-      api.countNotifications(),
+      api.countNotifications(payload),
     ])
     if (!list.notifications || !count) {
       count = { count: 0 }
@@ -200,7 +204,7 @@ export const actions = {
       }
     }
     commit(FETCH_NOTIFICATIONS_ALL, list.notifications)
-    commit(COUNT_NOTIFICATIONS_ALL, count.count)
+    commit(COUNT_NOTIFICATIONS_ALL, count)
     return result
   },
 

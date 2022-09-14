@@ -128,4 +128,7 @@ export default {
   deleteProduct(payload) {
     return http.put(`/products/delete/${payload.id}`)
   },
+  fetchServices(payload) {
+    return http.get(`/services?${buildQueryString(payload)}`)
+  },
 }

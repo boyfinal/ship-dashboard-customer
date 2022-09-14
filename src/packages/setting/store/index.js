@@ -33,6 +33,8 @@ export const CREATE_PRODUCT = 'createProduct'
 export const UPDATE_PRODUCT = 'updateProduct'
 export const DELETE_PRODUCT = 'deleteProduct'
 
+export const FETCH_LIST_SERVICES = 'fetchServices'
+
 /**
  * State
  */
@@ -46,6 +48,7 @@ export const state = {
   count: 0,
   products: [],
   count_product: 0,
+  services: [],
 }
 
 /**
@@ -89,6 +92,9 @@ export const mutations = {
   },
   [COUNT_PRODUCT]: (state, payload) => {
     state.count_product = payload
+  },
+  [FETCH_LIST_SERVICES]: (state, payload) => {
+    state.services = payload
   },
 }
 
@@ -417,5 +423,16 @@ export const actions = {
       success: false,
       message: response.errorMessage || '',
     }
+  },
+
+  async [FETCH_LIST_SERVICES]({ commit }, payload) {
+    commit(FETCH_LIST_SERVICES, [])
+    const res = await api.fetchServices(payload)
+    if (!res || res.error) {
+      return { error: true, message: res.errorMessage || '' }
+    }
+
+    commit(FETCH_LIST_SERVICES, res.services)
+    return { error: false }
   },
 }
