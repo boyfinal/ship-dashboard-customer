@@ -53,21 +53,6 @@
             <li class="nav-item">
               <a
                 href="#"
-                class="nav-link processing"
-                @click="filterStatus(statusProcessing)"
-                :class="{
-                  active: filter.status == statusProcessing,
-                }"
-              >
-                <inline-svg
-                  :src="require('../../../assets/img/clock2.svg')"
-                ></inline-svg>
-                Processing ({{ CountStatusProcessing || 0 }})
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                href="#"
                 class="nav-link in-transit"
                 @click="filterStatus(statusInTransit)"
                 :class="{
@@ -387,7 +372,6 @@ import { datetime } from '../../../core/utils/datetime'
 import {
   DELIVER_LOG_PACKAGE,
   PACKAGE_STATUS_DELIVERED_TEXT,
-  PACKAGE_STATUS_PROCESSING_TEXT,
   PACKAGE_STATUS_IN_TRANSIT_TEXT,
   PACKAGE_STATUS_ALERT_TEXT,
   PACKAGE_STATUS_PENDING_PICKUP_TEXT,
@@ -417,7 +401,6 @@ export default {
       errText: '',
       open: false,
       opened: [],
-      statusProcessing: PACKAGE_STATUS_PROCESSING_TEXT,
       statusInTransit: PACKAGE_STATUS_IN_TRANSIT_TEXT,
       statusDelivered: PACKAGE_STATUS_DELIVERED_TEXT,
       statusAlert: PACKAGE_STATUS_ALERT_TEXT,
@@ -510,11 +493,6 @@ Origin:\n`,
       set(packages) {
         return packages
       },
-    },
-    CountStatusProcessing() {
-      return this.count_status
-        .filter((x) => x.status == this.statusProcessing)
-        .map((x) => x.count)[0]
     },
     CountStatusInTransit() {
       return this.count_status

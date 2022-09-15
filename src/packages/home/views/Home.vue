@@ -28,21 +28,7 @@
           <div class="row mt-24">
             <div class="col-12">
               <div class="row">
-                <div class="col-4">
-                  <div class="box box-warning">
-                    <a
-                      @click="goListpackage('processing')"
-                      href="javascript:void(0)"
-                    >
-                      <div class="w-icon">
-                        <i class="icon icon-clock"></i>
-                      </div>
-                      <p class="title">processing</p>
-                      <p class="value">{{ numbers.processing }}</p>
-                    </a>
-                  </div>
-                </div>
-                <div class="col-4">
+                <div class="col-6">
                   <div class="box box-info">
                     <a
                       @click="goListpackage('in-transit')"
@@ -56,7 +42,7 @@
                     </a>
                   </div>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                   <div class="box box-success">
                     <a
                       @click="goListpackage('delivered')"
@@ -267,9 +253,6 @@ export default {
           case PACKAGE_STATUS_WAREHOUSE_INCONTAINER:
           case PACKAGE_STATUS_WAREHOUSE_INSHIPMENT:
           case PACKAGE_STATUS_WAREHOUSE_EXPORT:
-            this.numbers.processing += count
-            this.datavalues.processing[index] += count
-            break
           case PACKAGE_STATUS_IMPORT_HUB:
           case PACKAGE_STATUS_EXPORT_HUB:
           case PACKAGE_STATUS_INTRANSIT:

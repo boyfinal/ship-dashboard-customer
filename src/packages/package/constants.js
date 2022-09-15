@@ -77,10 +77,10 @@ export const PACKAGE_STATUS_TAB = [
     value: PACKAGE_STATUS_PENDING_PICKUP_TEXT,
     text: 'Pre-Transit',
   },
-  {
-    value: PACKAGE_STATUS_PROCESSING_TEXT,
-    text: 'Processing',
-  },
+  // {
+  //   value: PACKAGE_STATUS_PROCESSING_TEXT,
+  //   text: 'Processing',
+  // },
   {
     value: PACKAGE_STATUS_IN_TRANSIT_TEXT,
     text: 'In-Transit',
