@@ -582,21 +582,23 @@ export default {
       )
     },
     sumExtraFee() {
+      let amount = 0
       if (this.current.status_string == PACKAGE_STATUS_CREATED_TEXT) {
-        return this.caculateFee(this.current.weight)
+        amount += this.calculateFee(this.current.weight)
       }
 
       if (
         !this.package_detail.extra_fee ||
         this.package_detail.extra_fee.length <= 0
       ) {
-        return 0
+        return amount
       }
 
-      return this.package_detail.extra_fee.reduce(
+      amount += this.package_detail.extra_fee.reduce(
         (total, { amount }) => total + amount,
         0
       )
+      return amount
     },
     sumFee() {
       return this.current.shipping_fee + this.sumExtraFee
@@ -610,23 +612,24 @@ export default {
         : []
     },
     mapExtraFee() {
-      let arr = cloneDeep(this.extraFee),
+      const arr = cloneDeep(this.extraFee),
         result = []
       if (this.current.status_string == PACKAGE_STATUS_CREATED_TEXT) {
-        result = [
-          {
-            extra_fee_types: { name: 'Phụ phí cao điểm' },
-            amount: this.caculateFee(this.current.weight),
-          },
-        ]
-      } else {
-        for (const ele of arr) {
-          let index = result.findIndex(
-            (x) => x.extra_fee_types.name == ele.extra_fee_types.name
-          )
-          if (index == -1) {
-            result.push(ele)
-          } else result[index].amount += ele.amount
+        result.push({
+          extra_fee_types: { name: 'Phụ phí cao điểm' },
+          amount: this.calculateFee(this.current.weight),
+        })
+      }
+
+      for (const ele of arr) {
+        let index = result.findIndex(
+          (x) => x.extra_fee_types.name == ele.extra_fee_types.name
+        )
+
+        if (index == -1) {
+          result.push(ele)
+        } else {
+          result[index].amount += ele.amount
         }
       }
 

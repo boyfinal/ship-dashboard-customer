@@ -55,7 +55,7 @@ export default {
       return this.action.selected
         .map((it) =>
           it.status_string == 'pending'
-            ? it.shipping_fee + this.caculateFee(it.weight)
+            ? it.shipping_fee + this.calculateFee(it.weight)
             : it.shipping_fee
         )
         .reduce((accumulator, item) => accumulator + item)
@@ -145,7 +145,7 @@ export default {
      * @param weight
      */
 
-    caculateFee(weight) {
+    calculateFee(weight) {
       const rate = this.$store.state.shared.configs.extra_fee
       const min = +rate * 0.1
       if (+rate == 0) {
