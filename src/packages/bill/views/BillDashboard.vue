@@ -69,12 +69,32 @@
               :class="{ deactive: !isHolding, active: isHolding }"
               >Đơn chờ xử lý</a
             >
+            <a
+              href="javascript:void(0)"
+              @click="setPage('rate_currency')"
+              :class="{ deactive: !isRateCurrency, active: isRateCurrency }"
+              >Tỷ giá</a
+            >
           </div>
           <transition name="fade" mode="out-in">
             <wallet v-if="isTopup"></wallet>
             <list-bills v-if="isBill"></list-bills>
             <transaction v-if="isTransaction"></transaction>
             <listHoldings v-if="isHolding"></listHoldings>
+            <div class="page-content" v-if="isRateCurrency">
+              <div class="superset">
+                <iframe
+                  style="overflow: hidden; width: 100%; height: 100vh"
+                  width="600"
+                  height="1500"
+                  seamless
+                  frameBorder="0"
+                  scrolling="yes"
+                  :src="supersetLink"
+                >
+                </iframe>
+              </div>
+            </div>
           </transition>
         </div>
       </div>
@@ -142,6 +162,12 @@ export default {
     isHolding() {
       return this.page === 'holding'
     },
+    isRateCurrency() {
+      return this.page === 'rate_currency'
+    },
+    supersetLink() {
+      return `https://superset-new.lionnix.com/login?username=view&redirect=${process.env.VUE_APP_SUPERSET_DASHBOARD}`
+    },
   },
   data() {
     return {
@@ -176,3 +202,9 @@ export default {
   },
 }
 </script>
+<style>
+.superset {
+  margin-left: -32px;
+  margin-right: -32px;
+}
+</style>

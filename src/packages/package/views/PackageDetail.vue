@@ -187,6 +187,12 @@
                     <div class="card-title">Chi tiết đơn hàng</div>
                   </div>
                   <div class="card-content">
+                    <div class="mb-18" v-if="current.is_package_exceed"
+                      ><span class="pkg-exceed-bg pkg-exceed"
+                        >Đơn hàng quá cỡ và sẽ được áp dụng cách tính giá
+                        riêng</span
+                      >
+                    </div>
                     <div class="row">
                       <div class="col-4 mb-8">Chi tiết sản phẩm:</div>
                       <div class="col-8">{{ current.detail }}</div>
@@ -197,7 +203,10 @@
                     </div>
                     <div class="row">
                       <div class="col-4 mb-8">Trọng lượng:</div>
-                      <div class="col-8">
+                      <div
+                        class="col-8"
+                        :class="{ 'pkg-exceed': current.is_package_exceed }"
+                      >
                         {{ current.weight }} gram
                         <span v-if="isOverWeight"
                           >({{ current.actual_weight }} gram)</span
@@ -206,7 +215,10 @@
                     </div>
                     <div class="row">
                       <div class="col-4 mb-8">Dài:</div>
-                      <div class="col-8">
+                      <div
+                        class="col-8"
+                        :class="{ 'pkg-exceed': current.is_package_exceed }"
+                      >
                         {{ current.length }} cm
                         <span v-if="isOverVolumes"
                           >({{ current.actual_length }} cm)</span
@@ -215,7 +227,10 @@
                     </div>
                     <div class="row">
                       <div class="col-4 mb-8">Rộng:</div>
-                      <div class="col-8">
+                      <div
+                        class="col-8"
+                        :class="{ 'pkg-exceed': current.is_package_exceed }"
+                      >
                         {{ current.width }} cm
                         <span v-if="isOverVolumes">
                           ({{ current.actual_width }} cm)
@@ -224,7 +239,10 @@
                     </div>
                     <div class="row">
                       <div class="col-4 mb-8">Cao:</div>
-                      <div class="col-8">
+                      <div
+                        class="col-8"
+                        :class="{ 'pkg-exceed': current.is_package_exceed }"
+                      >
                         {{ current.height }} cm
                         <span v-if="isOverVolumes">
                           ({{ current.actual_height }} cm)
@@ -358,23 +376,25 @@
               <div class="fee__left">
                 <div class="title">Phí giao hàng:</div>
                 <div class="title">Phí phát sinh:</div>
+                <div class="title">Khuyến mãi:</div>
                 <div class="title" :class="{ hidden_refund: !refundFee.length }"
                   >Phí hold:</div
                 >
-                <div class="fee__number">{{
-                  (current.shipping_fee || 0) | formatPrice
-                }}</div>
-                <div class="fee__number"
-                  >{{ sumExtraFee | formatPrice }}
+                <div class="fee__number">
+                  {{ (current.shipping_fee || 0) | formatPrice }}
+                </div>
+                <div class="fee__number">
+                  {{ sumExtraFee | formatPrice }}
                   <div
                     class="more-extra-fee"
-                    v-if="extraFee.length || current.status_string == 'pending'"
+                    v-if="
+                      extraFees.length || current.status_string == 'pending'
+                    "
                   >
                     <img
                       @mouseover="showPopupMoreExtraFee"
                       @mouseleave="hiddenPopupMoreExtraFee"
                       src="~@/assets/img/InfoCircleGrey.svg"
-                      alt=""
                     />
                   </div>
                 </div>
@@ -388,8 +408,20 @@
                   </div>
                 </div>
 
+                <div class="fee__number">
+                  {{ discount | formatPrice }}
+                  <p-tooltip
+                    :label="'Khuyến mãi theo cân nặng'"
+                    size="large"
+                    position="top"
+                    type="dark"
+                  >
+                    <img src="~@/assets/img/InfoCircleGrey.svg" />
+                  </p-tooltip>
+                </div>
+
                 <div v-if="refundFee.length > 0" class="fee__number"
-                  >{{ sumRefundfee | formatPrice }}
+                  >{{ sumRefundFee | formatPrice }}
                   <div class="more-extra-fee">
                     <img
                       @mouseover="showPopupMoreRefundFee"
@@ -498,17 +530,20 @@ import {
   CANCEL_PACKAGES,
   PENDING_PICKUP_PACKAGES,
 } from '../store/index'
-import { PACKAGE_STATUS_CREATED_TEXT } from '../constants'
+import {
+  PACKAGE_STATUS_CREATED_TEXT,
+  EXTRA_FEE_TYPE_DISCOUNT,
+} from '../constants'
 import ModalEditOrder from './components/ModalEditOrder'
 import NotFound from '@/components/shared/NotFound'
 import ModalConfirm from '@components/shared/modal/ModalConfirm'
-import { cloneDeep } from '@core/utils'
 import mixinTable from '@core/mixins/table'
 import api from '../api'
 import mixinPackageDetail from '../mixins/package_detail'
 import AuditLog from './components/AuditLog'
 import DeliveryLog from './components/DeliveryLog'
 import { FETCH_TICKETS, COUNT_TICKET } from '../../claim/store'
+import { cloneDeep } from '../../../core/utils'
 
 export default {
   name: 'PackageDetail',
@@ -550,6 +585,7 @@ export default {
           loading: false,
         },
       },
+      isSubmitting: false,
       visibleConfirmCancel: false,
       isVisibleModalLabel: false,
       visibleConfirmReturn: false,
@@ -568,66 +604,65 @@ export default {
     current() {
       return this.package_detail.package || {}
     },
-    sumRefundfee() {
-      if (
-        !this.package_detail.package_refund ||
-        this.package_detail.package_refund.length <= 0
-      ) {
-        return 0
-      }
-
-      return this.package_detail.package_refund.reduce(
-        (total, { amount }) => total + amount,
-        0
-      )
+    sumRefundFee() {
+      return this.refundFee.reduce((total, { amount }) => total + amount, 0)
+    },
+    isPkgExceedNotEstimate() {
+      return this.current.is_package_exceed && this.current.shipping_fee == 0
     },
     sumExtraFee() {
       let amount = 0
-      if (this.current.status_string == PACKAGE_STATUS_CREATED_TEXT) {
+      if (
+        this.current.status_string == PACKAGE_STATUS_CREATED_TEXT &&
+        !this.isPkgExceedNotEstimate
+      ) {
         amount += this.calculateFee(this.current.weight)
       }
 
-      if (
-        !this.package_detail.extra_fee ||
-        this.package_detail.extra_fee.length <= 0
-      ) {
-        return amount
-      }
-
-      amount += this.package_detail.extra_fee.reduce(
-        (total, { amount }) => total + amount,
-        0
-      )
+      amount += this.extraFees.reduce((total, v) => total + v.amount, 0)
       return amount
     },
     sumFee() {
-      return this.current.shipping_fee + this.sumExtraFee
+      return this.current.shipping_fee + this.sumExtraFee + this.discount
     },
-    extraFee() {
-      return this.package_detail.extra_fee ? this.package_detail.extra_fee : []
+    discount() {
+      const total = this.extraFeeDiscount.reduce(
+        (total, { amount }) => total + amount,
+        0
+      )
+      return total
+    },
+    extraFees() {
+      return (this.package_detail.extra_fee || []).filter(
+        ({ extra_fee_type_id }) => extra_fee_type_id != EXTRA_FEE_TYPE_DISCOUNT
+      )
+    },
+    extraFeeDiscount() {
+      return (this.package_detail.extra_fee || []).filter(
+        ({ extra_fee_type_id }) => extra_fee_type_id == EXTRA_FEE_TYPE_DISCOUNT
+      )
     },
     refundFee() {
-      return this.package_detail.package_refund
-        ? this.package_detail.package_refund
-        : []
+      return this.package_detail.package_refund || []
     },
     mapExtraFee() {
-      const arr = cloneDeep(this.extraFee),
-        result = []
-      if (this.current.status_string == PACKAGE_STATUS_CREATED_TEXT) {
+      const result = []
+      if (
+        this.current.status_string == PACKAGE_STATUS_CREATED_TEXT &&
+        !this.isPkgExceedNotEstimate
+      ) {
         result.push({
           extra_fee_types: { name: 'Phụ phí cao điểm' },
           amount: this.calculateFee(this.current.weight),
         })
       }
-
-      for (const ele of arr) {
+      for (const ele of this.extraFees) {
         let index = result.findIndex(
           (x) => x.extra_fee_types.name == ele.extra_fee_types.name
         )
 
-        if (index == -1) {
-          result.push(ele)
+        if (index === -1) {
+          result.push(cloneDeep(ele))
         } else {
           result[index].amount += ele.amount
         }
@@ -715,7 +750,6 @@ export default {
       this.actions.wayBill.Description = `Bạn có chắc chắn muốn tạo tracking?`
       this.isVisibleConfirmWayBill = true
     },
-
     async handleActionWayBill() {
       let params = { ids: [this.packageID] }
 

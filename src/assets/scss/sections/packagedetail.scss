@@ -268,7 +268,7 @@
         position: relative;
         display: grid;
         grid-column-gap: 20px;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: auto auto auto auto;
         .title {
             color: $color-neutral-7;
             font-weight: 400;

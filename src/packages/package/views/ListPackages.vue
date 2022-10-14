@@ -417,7 +417,26 @@
                           </p-tooltip>
                         </span>
                       </td>
-                      <td style="text-align: right">{{
+                      <td
+                        v-if="item.is_package_exceed"
+                        style="text-align: right;color: #FA8C16"
+                      >
+                        <span class="pkg-exceed" v-if="!item.shipping_fee">
+                          Đang tính giá
+                        </span>
+                        <p-tooltip
+                          class="item_name"
+                          :label="`Hàng quá cỡ`"
+                          position="top"
+                          type="dark"
+                          v-else
+                        >
+                          <span class="pkg-exceed">
+                            {{ convertPrice(item) | formatPrice }}
+                          </span>
+                        </p-tooltip>
+                      </td>
+                      <td v-else style="text-align: right">{{
                         convertPrice(item) | formatPrice
                       }}</td>
                     </tr>

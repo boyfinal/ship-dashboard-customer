@@ -12,13 +12,15 @@
               <inline-svg
                 :class="{ hidden: isTopup }"
                 :src="require('../../../../src/assets/img/card.svg')"
-              ></inline-svg>
+              >
+              </inline-svg>
               <inline-svg
                 :class="{ hidden: !isTopup }"
                 :src="require('../../../../src/assets/img/card-active.svg')"
-              ></inline-svg
-              >Chuyển khoản</a
-            >
+              >
+              </inline-svg
+              >Chuyển khoản
+            </a>
             <a
               href="javascript:void(0)"
               @click="setMethod(payoneerType)"
@@ -41,7 +43,8 @@
               <inline-svg
                 :class="{ hidden: isPingPong }"
                 :src="require('../../../../src/assets/img/pingpong.svg')"
-              ></inline-svg>
+              >
+              </inline-svg>
               <inline-svg
                 :class="{ hidden: !isPingPong }"
                 :src="require('../../../../src/assets/img/pingpong-active.svg')"
@@ -61,8 +64,8 @@
                   </p>
                   <p
                     >Tên chủ thẻ:<br /><span>{{ name }}</span>
-                    <copy :value="name"></copy
-                  ></p>
+                    <copy :value="name"></copy>
+                  </p>
                   <p
                     >Số tài khoản:<br /><span>{{ accountNumber }}</span>
                     <copy :value="accountNumber"></copy>
@@ -132,8 +135,8 @@
                     <strong v-if="isPayoneer"
                       >trungpq.ftu@gmail.com<copy
                         :value="`trungpq.ftu@gmail.com`"
-                      ></copy
-                    ></strong>
+                      ></copy>
+                    </strong>
                     <strong v-if="isPingPong"
                       >tungpk@lionnix.com<copy
                         :value="`tungpk@lionnix.com`"
@@ -172,7 +175,7 @@
                         :value="amount"
                         class="form-control"
                       />
-                      <span>{{ US_FLAG.name }}</span>
+                      <span> USD </span>
                     </div>
                   </div>
                 </div>
@@ -361,8 +364,7 @@ export default {
     onChangeAmount(e) {
       this.amount = 0
       let value = e.target.value.trim()
-
-      if (this.toUSD) {
+      if (this.toUSD && !this.isPayoneer && !this.isPingPong) {
         value = value.replace(/[.|,]/g, '').replace(/^0+/, '')
         value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
       }
@@ -402,16 +404,14 @@ export default {
       if (this.loading) return
       this.checkValidAmount()
       if (this.error) return
-      if (this.toUSD) {
-        const rate = await this[FETCH_RATE_EXCHANGE]()
-        if (!rate || !rate.success) {
-          this.$toast.error('Something went wrong', { duration: 4000 })
-          return
-        }
-
-        this.USDTOVND = rate.usdtovnd
-        amount = amount / +this.USDTOVND
-      }
+      // const rate = await this[FETCH_RATE_EXCHANGE]()
+      // if (!rate || !rate.success) {
+      //   this.$toast.error('Something went wrong', { duration: 4000 })
+      //   return
+      // }
+      //
+      // this.USDTOVND = rate.usdtovnd
+      // amount = amount / +this.USDTOVND
 
       if (amount < 1) {
         this.errorText = 'Số tiền nhập tối thiểu 1$!'

@@ -28,6 +28,10 @@ export default {
       const { status_string } = this.current
       return status_string === PACKAGE_STATUS_CREATED_TEXT
     },
+    isCreatedStatus() {
+      const { status_string } = this.current
+      return status_string === PACKAGE_STATUS_CREATED_TEXT
+    },
     hasReshipPackage() {
       const { status_string, alert } = this.current
       return (

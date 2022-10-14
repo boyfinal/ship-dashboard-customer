@@ -253,7 +253,8 @@ import NotFound from '../../../components/shared/NotFound'
 import mixinDownload from '@/packages/shared/mixins/download'
 import _ from 'lodash'
 import { dateFormat } from '@core/utils/datetime'
-import { BillCreate, BillRefund, BillPay } from '../constants'
+import { BillCreate, BillRefund, BillPay, EXTRA_FEE_REFUND } from '../constants'
+
 export default {
   name: 'BillDetail',
   mixins: [mixinTable, mixinDownload],
@@ -276,7 +277,7 @@ export default {
       filterRefund: {
         limit: 5,
         page: 1,
-        type: 9,
+        type: EXTRA_FEE_REFUND,
       },
       isFetching: false,
       isFetchingPackages: false,
@@ -299,7 +300,9 @@ export default {
       countRefund: (state) => state.countRefund,
     }),
     extraFee() {
-      const extra = this.feeExtra.filter((item) => item.extra_fee_type_id != 9)
+      const extra = this.feeExtra.filter(
+        (item) => item.extra_fee_type_id != EXTRA_FEE_REFUND
+      )
       return extra
     },
     billAmount() {

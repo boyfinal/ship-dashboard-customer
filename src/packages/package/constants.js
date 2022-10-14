@@ -64,6 +64,7 @@ export const PACKAGE_UPDATE_TYPE_PRODUCT = 26
 export const PACKAGE_UPDATE_EXTRAFEE_TYPE_PEAK = 27
 export const PACKAGE_UPDATE_EXTRAFEE_TYPE_CANCEL_LABEL = 28
 export const PACKAGE_UPDATE_EXTRAFEE_TYPE_OVERSIZE = 29
+export const PACKAGE_UPDATE_ADRESS_EXCEED_PACKAGE = 31
 
 export const PACKAGE_STATUS_TAB = [
   {
@@ -186,6 +187,7 @@ export const CHANGE_PACKAGE_TYPE = {
   [PACKAGE_UPDATE_EXTRAFEE_TYPE_PEAK]: '',
   [PACKAGE_UPDATE_EXTRAFEE_TYPE_CANCEL_LABEL]: 'Hủy Label',
   [PACKAGE_UPDATE_EXTRAFEE_TYPE_OVERSIZE]: 'Phí quá thể tích',
+  [PACKAGE_UPDATE_ADRESS_EXCEED_PACKAGE]: 'Phí sửa địa chỉ',
 }
 // cSpell:enable
 
@@ -205,3 +207,5 @@ export const DELIVER_LOG_PACKAGE = {
 export const ROLE_ADMIN = 'admin'
 export const ROLE_SUPPORT = 'support'
 export const ROLE_ACCOUNTANT = 'accountant'
+
+export const EXTRA_FEE_TYPE_DISCOUNT = 15
