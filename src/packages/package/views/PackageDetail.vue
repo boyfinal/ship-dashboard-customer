@@ -30,16 +30,11 @@
             </div>
             <div class="content-title">{{ current.service_name }}</div>
             <div class="content-title tracking" v-if="current">
-              <a
-                target="_blank"
+              <track-link
                 v-if="current.tracking_number"
-                :href="linkTrackInfo"
-              >
-                {{ current.tracking_number }}
-                <inline-svg
-                  :src="require('../../../assets/img/arrow-up-right.svg')"
-                ></inline-svg>
-              </a>
+                :current="current"
+                :is-sm-screen="false"
+              />
               <a v-else>N/A</a>
             </div>
             <div class="content-title">
@@ -388,7 +383,9 @@
                   <div
                     class="more-extra-fee"
                     v-if="
-                      extraFees.length || current.status_string == 'pending'
+                      extraFees.length ||
+                        (current.status_string == 'pending' &&
+                          mapExtraFee.length)
                     "
                   >
                     <img
@@ -522,7 +519,7 @@
 </style>
 <script>
 import { mapState, mapActions } from 'vuex'
-import { printImage } from '@core/utils/print'
+import { print } from '@core/utils/print'
 import {
   FETCH_PACKAGE_DETAIL,
   FETCH_LIST_SERVICE,
@@ -538,17 +535,24 @@ import ModalEditOrder from './components/ModalEditOrder'
 import NotFound from '@/components/shared/NotFound'
 import ModalConfirm from '@components/shared/modal/ModalConfirm'
 import mixinTable from '@core/mixins/table'
-import api from '../api'
 import mixinPackageDetail from '../mixins/package_detail'
 import AuditLog from './components/AuditLog'
 import DeliveryLog from './components/DeliveryLog'
 import { FETCH_TICKETS, COUNT_TICKET } from '../../claim/store'
 import { cloneDeep } from '../../../core/utils'
+import TrackLink from './components/Track.vue'
 
 export default {
   name: 'PackageDetail',
   mixins: [mixinPackageDetail, mixinTable],
-  components: { ModalEditOrder, ModalConfirm, NotFound, AuditLog, DeliveryLog },
+  components: {
+    ModalEditOrder,
+    ModalConfirm,
+    NotFound,
+    AuditLog,
+    DeliveryLog,
+    TrackLink,
+  },
   data() {
     return {
       isFetching: true,
@@ -651,10 +655,12 @@ export default {
         this.current.status_string == PACKAGE_STATUS_CREATED_TEXT &&
         !this.isPkgExceedNotEstimate
       ) {
-        result.push({
-          extra_fee_types: { name: 'Phụ phí cao điểm' },
-          amount: this.calculateFee(this.current.weight),
-        })
+        if (this.calculateFee(this.current.weight) > 0) {
+          result.push({
+            extra_fee_types: { name: 'Peak season surcharge' },
+            amount: this.calculateFee(this.current.weight),
+          })
+        }
       }
       for (const ele of this.extraFees) {
         let index = result.findIndex(
@@ -818,20 +824,8 @@ export default {
 
     async showContent() {
       document.activeElement && document.activeElement.blur()
-
-      const res = await api.fetchBarcodeFile({
-        url: this.current.label,
-        type: 'labels',
-      })
-
-      if (!res && res.error) {
-        this.$toast.error(res.errorMessage, { duration: 3000 })
-        return
-      }
-
       try {
-        let blob = (window.webkitURL || window.URL).createObjectURL(res)
-        printImage(blob)
+        print(this.current.label)
       } catch (error) {
         this.$toast.error('File error !!!')
       }

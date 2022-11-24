@@ -652,13 +652,13 @@ export default {
       this.isCreate = true
       const params = {
         recipient: this.fullname.trim(),
-        phone_number: this.phone.trim(),
+        phone: this.phone.trim(),
         address_1: this.address.trim(),
         city: this.city.trim(),
         state_code: this.state.trim(),
         zipcode: this.postcode.trim(),
         country_code: this.countrycode.trim(),
-        sku: this.order_number.trim(),
+        order_number: this.order_number.trim(),
         detail: this.detail.trim(),
         weight: +this.weight.trim(),
         width: +this.width.trim(),

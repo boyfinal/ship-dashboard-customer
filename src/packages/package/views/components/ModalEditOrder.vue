@@ -738,16 +738,16 @@ export default {
       this.isUpdate = true
       const { id } = this.$route.params
       const params = {
-        id: id,
+        id: parseInt(id),
         recipient: this.fullname,
-        phone_number: this.phone.trim(),
+        phone: this.phone.trim(),
         address_1: this.address,
         city: this.city,
         state_code: this.state,
         zipcode: this.postcode,
         country_code: this.countrycode,
         detail: this.detail,
-        sku: this.order_number,
+        order_number: this.order_number,
         weight: +this.weight,
         width: +this.width,
         length: +this.length,

@@ -6,7 +6,7 @@
           class="btn"
           v-for="service in services"
           :key="service.id"
-          :disabled="!service.prices.length"
+          :disabled="!service.prices || !service.prices.length"
           :class="{ active: service.id == filter.service }"
           @click="switchServiceHandle(service.id)"
         >

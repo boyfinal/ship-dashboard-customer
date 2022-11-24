@@ -113,7 +113,7 @@ VeeValidate.Validator.extend('city', {
 VeeValidate.Validator.extend('state', {
   getMessage: () => `Mã vùng không hợp lệ`,
   validate: (value) => {
-    const regex = new RegExp(/^[\s+a-zA-Z0-9_.,\-\u00A1-\uFFFF]{1,15}$/)
+    const regex = new RegExp(/^[\s+a-zA-Z0-9_.,\-\u00A1-\uFFFF]{1,30}$/)
     return regex.test(value)
   },
 })
