@@ -131,6 +131,20 @@
             </div>
           </div>
         </div>
+        <div class="status">
+          <div class="title">Cảnh báo</div>
+          <div class="row">
+            <div class="item checkbox-custom">
+              <input
+                type="checkbox"
+                @click="alertOverPreTransitToggle"
+                :checked="isCheckedAlertOverPreTransit"
+                id="cb-delay-001"
+              />
+              <label for="cb-delay-001">Đơn chậm</label>
+            </div>
+          </div>
+        </div>
       </template>
       <template slot="footer">
         <div class="note">
@@ -166,7 +180,10 @@
 </template>
 <script>
 import { date } from '@core/utils/datetime'
-import { PACKAGE_STATUS_TAB } from '../../constants'
+import {
+  PACKAGE_ALERT_TYPE_OVER_PRE_TRANSIT,
+  PACKAGE_STATUS_TAB,
+} from '../../constants'
 export default {
   name: 'ModalSearchAdvanced',
   props: {
@@ -198,6 +215,7 @@ export default {
         search_by: '',
         page: 1,
         limit: 25,
+        alert: 0,
       },
       labelDate: `Chọn ngày`,
       allSelected: false,
@@ -212,6 +230,9 @@ export default {
           status.text != 'Alert' &&
           status.text != 'Archived'
       )
+    },
+    isCheckedAlertOverPreTransit() {
+      return this.filter.alert == PACKAGE_ALERT_TYPE_OVER_PRE_TRANSIT
     },
   },
   created() {},
@@ -271,6 +292,13 @@ export default {
     },
     handleDeleteSearch() {
       this.filter.search = ''
+    },
+    alertOverPreTransitToggle(e) {
+      if (e.target.checked) {
+        this.filter.alert = PACKAGE_ALERT_TYPE_OVER_PRE_TRANSIT
+      } else {
+        this.filter.alert = 0
+      }
     },
   },
   watch: {

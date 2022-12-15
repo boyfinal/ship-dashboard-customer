@@ -808,6 +808,7 @@ export default {
           status_arr: filter.status_arr,
           start_date: filter.start_date,
           end_date: filter.end_date,
+          alert: filter.alert,
         })
       }
 
@@ -1186,8 +1187,10 @@ export default {
       },
       deep: true,
     },
-    'filter.status': function() {
-      this.filter.alert = 0
+    'filter.status': function(value) {
+      if (!!value && value.status != PACKAGE_STATUS_ALERT_TEXT) {
+        this.filter.alert = 0
+      }
     },
   },
 }
