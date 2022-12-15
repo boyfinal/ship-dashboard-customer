@@ -115,17 +115,20 @@ export default {
   watch: {
     // eslint-disable-next-line no-unused-vars
     $route(to, from) {
-      var Srisp = document.querySelector(
+      const srisp = document.querySelector(
         '.crisp-client .cc-52lo .cc-kegp .cc-1oun'
       )
-      Srisp.style.setProperty('left', 'unset', 'important')
-      if (
-        to.name == 'package-detail' ||
-        (to.name == 'package-create' && Srisp)
-      ) {
-        Srisp.style.setProperty('margin-bottom', '110px', 'important')
-      } else {
-        Srisp.style.setProperty('margin-bottom', 'unset', 'important')
+
+      if (srisp) {
+        srisp.style.setProperty('left', 'unset', 'important')
+        if (
+          to.name == 'package-detail' ||
+          (to.name == 'package-create' && srisp)
+        ) {
+          srisp.style.setProperty('margin-bottom', '110px', 'important')
+        } else {
+          srisp.style.setProperty('margin-bottom', 'unset', 'important')
+        }
       }
     },
   },

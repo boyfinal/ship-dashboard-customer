@@ -122,6 +122,25 @@
               v-model="filter.status"
               :count-status="count_status"
             />
+            <div
+              v-if="isTabAlert"
+              class="mt-20"
+              style="position: relative;margin-bottom: -10px;padding-top:20px;"
+            >
+              <div
+                class="order-select-checkbox p-checkbox checkbox-custom checkbox-primary"
+              >
+                <input
+                  type="checkbox"
+                  id="cb-alert"
+                  @click="alertOverPreTransitToggle"
+                  :checked="isCheckedAlertOverPreTransit"
+                />
+                <label for="cb-alert">
+                  <span>Đơn chậm</span>
+                </label>
+              </div>
+            </div>
             <VclTable class="mt-20" v-if="isFetching"></VclTable>
             <template v-else-if="packages.length">
               <div class="table-responsive">
@@ -530,6 +549,7 @@ import {
   PACKAGE_ALERT_TYPE_OVER_PRE_TRANSIT,
   PACKAGE_ALERT_TYPE_WAREHOUSE_RETURN,
   PACKAGE_ALERT_TYPE_HUB_RETURN,
+  PACKAGE_STATUS_ALERT_TEXT,
 } from '../constants'
 import {
   FETCH_LIST_PACKAGES,
@@ -583,6 +603,7 @@ export default {
         start_date: '',
         end_date: '',
         code: '',
+        alert: 0,
       },
       labelDate: `Tìm theo ngày`,
       isUploading: false,
@@ -663,6 +684,12 @@ export default {
     }),
     statusTab() {
       return PACKAGE_STATUS_TAB
+    },
+    isTabAlert() {
+      return this.filter.status == PACKAGE_STATUS_ALERT_TEXT
+    },
+    isCheckedAlertOverPreTransit() {
+      return this.filter.alert == PACKAGE_ALERT_TYPE_OVER_PRE_TRANSIT
     },
   },
   methods: {
@@ -1144,6 +1171,13 @@ export default {
     visibleModalSearch() {
       this.isVisibleModalSearch = true
     },
+    alertOverPreTransitToggle(e) {
+      if (e.target.checked) {
+        this.filter.alert = PACKAGE_ALERT_TYPE_OVER_PRE_TRANSIT
+      } else {
+        this.filter.alert = 0
+      }
+    },
   },
   watch: {
     filter: {
@@ -1151,6 +1185,9 @@ export default {
         this.init()
       },
       deep: true,
+    },
+    'filter.status': function() {
+      this.filter.alert = 0
     },
   },
 }
