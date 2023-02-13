@@ -224,7 +224,7 @@ import {
   TransactionLogTypePayoneer,
   TransactionLogTypePingPong,
 } from '../constants'
-import { formatNumber } from '@core/utils/formatter'
+import { formatNumber, numberSliceTwoDecimal } from '@core/utils/formatter'
 import Copy from '../components/Copy.vue'
 
 export default {
@@ -423,7 +423,7 @@ export default {
       let payload = {
         type: this.method,
         transaction_id: this.transactionID,
-        amount: Math.trunc(amount * 100) / 100,
+        amount: numberSliceTwoDecimal(amount),
       }
 
       const result = await this[CREATE_TRANSACTION](payload)

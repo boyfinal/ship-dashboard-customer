@@ -102,3 +102,15 @@ export const formatPrice2 = (value) => {
 
   return `+ $${val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`
 }
+
+export const numberSliceTwoDecimal = (val) => {
+  if (!val) return 0
+
+  if (!('' + val).includes('.')) return +val
+
+  const arr = ('' + val).split('.')
+  const a = arr[0] ? arr[0] : 0
+  const d = arr[1] ? (arr[1].length > 2 ? arr[1].slice(0, 2) : arr[1]) : '00'
+
+  return Number(`${a}.${d}`)
+}
