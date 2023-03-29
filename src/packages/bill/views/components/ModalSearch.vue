@@ -52,6 +52,18 @@
             </div>
           </div>
         </div>
+        <div>
+          <div class="title font-weight-600">Loại hoá đơn:</div>
+          <multiselect
+            class="multiselect-custom dropdown-reason"
+            :options="exportOptionType"
+            placeholder="Chọn loại hóa đơn"
+            :allow-empty="false"
+            v-model="select"
+            @select="handleSelectExportType"
+            :custom-label="customLabel"
+          ></multiselect>
+        </div>
       </template>
       <template slot="footer">
         <div class="note">
@@ -64,7 +76,7 @@
         <div class="d-flex">
           <div class="ml-7">
             <p-button type="primary" @click="handleExport">
-              Xuất hóa đơn
+              {{ labelBtnDownload }}
             </p-button>
           </div>
         </div>
@@ -74,6 +86,7 @@
 </template>
 <script>
 import { date } from '@core/utils/datetime'
+import { EXPORT_GENERAL_TYPE, EXPORT_DETAIL_TYPE } from '../../constants'
 export default {
   name: 'ModalSearch',
   props: {
@@ -104,6 +117,8 @@ export default {
         end_date: '',
         search_by: '',
       },
+      export_type: '',
+      select: null,
       disabledDates: new Date(Date.now() - 8640000),
       labelDate: `Chọn khoảng thời gian`,
       allSelected: false,
@@ -120,9 +135,26 @@ export default {
           label: 'Phí phát sinh',
         },
       ],
+      exportOptionType: [
+        {
+          name: 'Hóa đơn tổng quát',
+          type: EXPORT_GENERAL_TYPE,
+        },
+        {
+          name: 'Hóa đơn chi tiết',
+          type: EXPORT_DETAIL_TYPE,
+        },
+      ],
     }
   },
-  computed: {},
+  computed: {
+    labelBtnDownload() {
+      if (this.export_type === EXPORT_DETAIL_TYPE) {
+        return 'Tải CSV'
+      }
+      return 'Xuất hóa đơn'
+    },
+  },
   created() {},
 
   methods: {
@@ -136,7 +168,15 @@ export default {
         end_date: '',
         search_by: '',
       }
+      this.select = null
+      this.export_type = ''
       this.clearSearchDate()
+    },
+    handleSelectExportType(select) {
+      this.export_type = select.type
+    },
+    customLabel({ name }) {
+      return name
     },
     dateFormat(classes, date) {
       if (!classes.disabled) {
@@ -182,11 +222,18 @@ export default {
         this.$toast.error('Chưa chọn khoảng thời gian', { duration: 3000 })
         return
       }
-      if (this.filter.status_arr.length < 1) {
+      if (
+        this.filter.status_arr.length < 1 &&
+        this.export_type != EXPORT_GENERAL_TYPE
+      ) {
         this.$toast.error('Chưa chọn trạng thái', { duration: 3000 })
         return
       }
-
+      if (this.export_type == '') {
+        this.$toast.error('Chưa chọn loại hóa đơn export', { duration: 3000 })
+        return
+      }
+      this.filter.export_type = this.export_type
       this.$emit('export', this.filter)
       this.filter = {
         status_arr: [],
@@ -195,6 +242,8 @@ export default {
         end_date: '',
         search_by: '',
       }
+      this.export_type = ''
+      this.select = null
       this.clearSearchDate()
     },
     checkAll() {

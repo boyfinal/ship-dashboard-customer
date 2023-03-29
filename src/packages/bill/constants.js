@@ -5,6 +5,9 @@ export const BillCreate = 'Tạo mới'
 export const BillRefund = 'Hoàn trả'
 export const BillPay = 'Thanh toán'
 
+export const EXPORT_GENERAL_TYPE = 'general'
+export const EXPORT_DETAIL_TYPE = 'detail'
+
 export const BANK = 'Ngân hàng TMCP Hàng Hải Việt Nam - MSB'
 export const BRANCH = 'Nam Thăng Long'
 export const NAME = 'PHAM QUANG TRUNG'

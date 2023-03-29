@@ -222,8 +222,8 @@ export default {
         extra: filter.status_arr.includes('extra') ? 'true' : '',
         start_date: filter.start_date,
         end_date: filter.end_date,
+        export_type: filter.export_type,
       }
-      // this.filter = { ...params }
 
       this[SET_LOADING](true)
       const result = await this[EXPORT_BILLS](params)

@@ -1,5 +1,5 @@
 export function isEmail(val) {
-  const re = /^[a-z0-9A-Z_.-]{1,32}@[a-z0-9A-Z-_]{2,}(\.[a-z0-9A-Z]{2,4}){1,2}$/i
+  const re = /^[a-z0-9A-Z_.-]{1,32}@[a-z0-9A-Z-_]{2,}(\.[a-z0-9A-Z]{2,7}){1,2}$/i
   return re.test(val)
 }
 
