@@ -24,7 +24,9 @@
                     <tr>
                       <th width="150">DỊCH VỤ</th>
                       <th width="200">CÂN NẶNG (GRAM)</th>
-                      <th width="100">GIÁ ($)</th>
+                      <th width="100"
+                        >{{ hasServiceFBA ? 'GIÁ/KG' : 'GIÁ' }} ($)</th
+                      >
                     </tr>
                   </thead>
                   <tbody>
@@ -74,7 +76,18 @@ export default {
         prices[i].name = name
       }
 
+      if (this.hasServiceFBA) {
+        prices.shift()
+      }
+
       return prices
+    },
+    hasServiceFBA() {
+      const id = this.services.findIndex(
+        ({ id, code }) =>
+          this.filter.service == id && code.toUpperCase() == 'FBA'
+      )
+      return id !== -1
     },
   },
   data() {

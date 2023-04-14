@@ -50,7 +50,7 @@
               <span v-status:status="current.status_string"></span>
             </div>
           </div>
-          <div class="page-header__action">
+          <div class="page-header__action" v-if="!isFbaPkg">
             <p-button
               href="#"
               type="lb-default"
@@ -541,7 +541,7 @@ import DeliveryLog from './components/DeliveryLog'
 import { FETCH_TICKETS, COUNT_TICKET } from '../../claim/store'
 import { cloneDeep } from '../../../core/utils'
 import TrackLink from './components/Track.vue'
-
+import { FBA_SERVICE_CODE } from '../constants'
 export default {
   name: 'PackageDetail',
   mixins: [mixinPackageDetail, mixinTable],
@@ -613,6 +613,9 @@ export default {
     },
     isPkgExceedNotEstimate() {
       return this.current.is_package_exceed && this.current.shipping_fee == 0
+    },
+    isFbaPkg() {
+      return this.current.service_code === FBA_SERVICE_CODE
     },
     sumExtraFee() {
       let amount = 0

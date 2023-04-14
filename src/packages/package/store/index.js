@@ -1,5 +1,5 @@
 import api from '../api'
-
+import { FBA_SERVICE_CODE } from '../constants'
 /**
  * Type
  */
@@ -61,9 +61,11 @@ export const state = {
  */
 export const getters = {
   [GET_SERVICE](state) {
-    let sv = state.service.map((item) => {
-      return { id: item.id, name: item.name, code: item.code }
-    })
+    let sv = state.service
+      .filter((item) => item.code.toUpperCase() !== FBA_SERVICE_CODE)
+      .map((item) => {
+        return { id: item.id, name: item.name, code: item.code }
+      })
     return sv
   },
 }

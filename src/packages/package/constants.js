@@ -211,3 +211,4 @@ export const ROLE_SUPPORT = 'support'
 export const ROLE_ACCOUNTANT = 'accountant'
 
 export const EXTRA_FEE_TYPE_DISCOUNT = 15
+export const FBA_SERVICE_CODE = 'FBA'

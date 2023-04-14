@@ -174,6 +174,8 @@ export default {
             '/packages-return',
             '/orders',
             '/orders/:id',
+            '/shipments',
+            '/shipments/:id',
           ],
           sub: [
             {
@@ -187,6 +189,10 @@ export default {
             {
               route: '/orders',
               title: 'Kiện hàng',
+            },
+            {
+              route: '/shipments',
+              title: 'Lô hàng',
             },
           ],
         },
