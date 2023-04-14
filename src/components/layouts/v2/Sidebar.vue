@@ -192,7 +192,7 @@ export default {
             },
             {
               route: '/shipments',
-              title: 'Lô hàng',
+              title: 'Lô hàng FBA',
             },
           ],
         },
