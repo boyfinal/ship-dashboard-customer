@@ -27,13 +27,17 @@
               <Status :status="shipment.status" />
             </span>
           </div>
+          <div class="h-i">
+            <span class="h-it">Dịch vụ:</span>
+            <span class="h-iv">{{ firstItem.service_name }}</span>
+          </div>
         </div>
         <div class="head-actions">
           <p-button
             v-if="hasCreateTracking"
             @click.prevent="createTrackingConfirmHandle"
             class="btn-sm"
-            >Tạo tracking</p-button
+            >Vận lô</p-button
           >
           <p-button
             v-if="hasDownloadAllLabel"
@@ -108,8 +112,8 @@
                   <table class="table table-hover pt-0 tb-si">
                     <thead>
                       <tr>
-                        <th>Mã đơn</th>
                         <th>LionBay tracking</th>
+                        <th>Mã đơn</th>
                         <th>Last mile tracking</th>
                         <th>Trọng lượng</th>
                         <th>LxWxH (cm)</th>
@@ -120,6 +124,7 @@
                     </thead>
                     <tbody>
                       <tr v-for="item in displayItems" :key="item.id">
+                        <td>{{ item.code || 'N/A' }}</td>
                         <td class="order-number">
                           <div class="d-flex justify-content-between">
                             <router-link
@@ -133,7 +138,6 @@
                             </router-link>
                           </div>
                         </td>
-                        <td>{{ item.code || 'N/A' }}</td>
                         <td>{{ item.tracking_number || 'N/A' }}</td>
                         <td
                           >{{ item.weight | formatWeight }}kg
@@ -156,13 +160,20 @@
                           <a
                             v-if="item.label"
                             href="#"
-                            class="btn btn-primary"
+                            class="label-print"
                             @click.prevent="downloadLabel(item)"
                           >
-                            <inline-svg
-                              :src="require('@assets/img/arrow-down-2.svg')"
+                            <p-tooltip
+                              label="Print"
+                              size="large"
+                              position="top"
+                              type="dark"
                             >
-                            </inline-svg>
+                              <inline-svg
+                                :src="require('@assets/img/print.svg')"
+                              >
+                              </inline-svg>
+                            </p-tooltip>
                           </a>
                         </td>
                       </tr>
@@ -369,8 +380,8 @@ export default {
     createTrackingConfirmHandle() {
       this.$dialog.confirm({
         title: 'Xác nhận',
-        message: 'Bạn có chắc chắn muốn tạo tracking?',
-        confirmText: 'Tạo tracking',
+        message: 'Bạn có chắc chắn muốn vận lô?',
+        confirmText: 'Vận lô',
         cancelText: 'Đóng',
         typeCancel: 'default',
         onConfirm: this.createTrackingHandle,
@@ -495,5 +506,10 @@ export default {
 
 .page-header.bg-white {
   background-color: #fff;
+}
+.label-print {
+  &:hover path {
+    fill: #00978c;
+  }
 }
 </style>

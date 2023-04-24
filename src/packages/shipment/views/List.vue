@@ -90,7 +90,7 @@
                           v-if="item.hasCreateTracking"
                           @click.prevent="createTrackingConfirmHandle(item)"
                           class="btn-sm"
-                          >Tạo tracking</p-button
+                          >Vận lô</p-button
                         >
                         <p-button
                           v-if="item.hasCancel"
@@ -282,8 +282,8 @@ export default {
     createTrackingConfirmHandle({ id }) {
       this.$dialog.confirm({
         title: 'Xác nhận',
-        message: 'Bạn có chắc chắn muốn tạo tracking?',
-        confirmText: 'Tạo tracking',
+        message: 'Bạn có chắc chắn muốn vận lô?',
+        confirmText: 'Vận lô',
         cancelText: 'Đóng',
         typeCancel: 'default',
         onConfirm: () => {

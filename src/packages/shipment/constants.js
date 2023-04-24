@@ -38,23 +38,23 @@ export const MAP_SHIPMENT_STATUS = {
   },
   [PACKAGE_STATUS_PICKED]: {
     text: PACKAGE_STATUS_IN_TRANSIT_TEXT,
-    className: 'primary',
+    className: 'default',
   },
   [PACKAGE_STATUS_WAREHOUSE_LABELED]: {
     text: PACKAGE_STATUS_IN_TRANSIT_TEXT,
-    className: 'primary',
+    className: 'default',
   },
   [PACKAGE_STATUS_WAREHOUSE_IN_CONTAINER]: {
     text: PACKAGE_STATUS_IN_TRANSIT_TEXT,
-    className: 'primary',
+    className: 'default',
   },
   [PACKAGE_STATUS_WAREHOUSE_IN_SHIPMENT]: {
     text: PACKAGE_STATUS_IN_TRANSIT_TEXT,
-    className: 'primary',
+    className: 'default',
   },
   [PACKAGE_STATUS_WAREHOUSE_EXPORT]: {
     text: PACKAGE_STATUS_IN_TRANSIT_TEXT,
-    className: 'primary',
+    className: 'default',
   },
   [PACKAGE_STATUS_IN_TRANSIT]: {
     text: PACKAGE_STATUS_IN_TRANSIT_TEXT,

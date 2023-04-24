@@ -40,6 +40,8 @@ export const formatTobe = (tobe, quantity, result = 'are') => {
  * @return {string}
  */
 export const formatPrice = (value) => {
+  if (!value) return '$0.00'
+
   let val = (Math.abs(value) / 1).toFixed(2)
 
   if (val == 0) {
