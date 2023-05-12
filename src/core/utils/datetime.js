@@ -71,6 +71,31 @@ export const timeAgo = (val) => {
   return distanceInWords(date, new Date(), { locale: vi })
 }
 
+export const distanceTime = (val1, val2) => {
+  if (!val1) {
+    return ''
+  }
+
+  let date1
+
+  if (isNumber(val1)) {
+    date1 = new Date(val1 * 1000)
+  } else {
+    date1 = new Date(val1)
+  }
+
+  let date2 = new Date()
+  if (val2) {
+    if (isNumber(val2)) {
+      date2 = new Date(val2 * 1000)
+    } else {
+      date2 = new Date(val2)
+    }
+  }
+
+  return distanceInWords(date1, date2, { locale: vi })
+}
+
 /**
  * Parse time to hours and minutes
  * @param time

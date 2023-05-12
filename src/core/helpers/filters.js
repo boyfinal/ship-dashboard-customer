@@ -1,5 +1,5 @@
 export { capitalize, pluralize } from '@core/utils/string'
-export { date, datetime, timeAgo } from '@core/utils/datetime'
+export { date, datetime, timeAgo, distanceTime } from '@core/utils/datetime'
 export {
   formatPrice as priceFormat,
   formatPrice,

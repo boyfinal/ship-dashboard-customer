@@ -21,7 +21,7 @@
           <router-link
             :to="handelRouter(menu)"
             class="item-link"
-            @mouseover.native="openItem(menu)"
+            @mouseover.native="openItem($event, menu)"
             @mouseleave.native="closeItem(menu)"
           >
             <div class="item-link-content">
@@ -174,8 +174,6 @@ export default {
             '/packages-return',
             '/orders',
             '/orders/:id',
-            '/shipments',
-            '/shipments/:id',
           ],
           sub: [
             {
@@ -190,11 +188,17 @@ export default {
               route: '/orders',
               title: 'Kiện hàng',
             },
-            {
-              route: '/shipments',
-              title: 'Lô hàng FBA',
-            },
           ],
+        },
+        {
+          title: 'Đơn FBA',
+          icon: require('@assets/img/fba.svg'),
+          iconActive: require('@assets/img/fba-active.svg'),
+          route: { name: 'shipment-list' },
+          class: '',
+          isOpen: false,
+          tooltip: 'Đơn FBA',
+          alias: ['/shipments', '/shipments/:id'],
         },
         {
           title: 'Hóa đơn',
@@ -292,7 +296,7 @@ export default {
       }
       return menu.route
     },
-    openItem(menu) {
+    openItem(e, menu) {
       menu.isOpen = true
     },
     closeItem(menu) {
@@ -309,3 +313,13 @@ export default {
   },
 }
 </script>
+<style lang="scss">
+.site-menubar-body {
+  .site-menu-icon {
+    width: 30px;
+  }
+}
+.site-menubar-logo {
+  margin-bottom: 25px;
+}
+</style>

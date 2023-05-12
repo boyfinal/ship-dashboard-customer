@@ -103,11 +103,12 @@
                       <table class="table table-hover">
                         <thead>
                           <tr class="table-header">
-                            <th width="270">LIONBAY TRACKING </th>
-                            <th width="270">THỜI GIAN </th>
+                            <th width="270">LIONBAY TRACKING</th>
+                            <th width="100">MÃ LÔ FBA</th>
+                            <th width="190">THỜI GIAN </th>
                             <th>LOẠI PHÍ</th>
                             <th>NỘI DUNG</th>
-                            <th class="text-right">PHÍ PHÁT SINH </th>
+                            <th class="text-right">PHÍ PHÁT SINH</th>
                           </tr>
                         </thead>
 
@@ -115,6 +116,7 @@
                           <tr v-for="(item, i) in feeExtra" :key="i">
                             <td>
                               <router-link
+                                v-if="item.package_id"
                                 class="text-no-underline"
                                 :to="{
                                   name: 'package-detail',
@@ -125,6 +127,20 @@
                               >
                                 {{ item.package_code }}
                                 <img src="@/assets/img/external.svg" />
+                              </router-link>
+                            </td>
+                            <td>
+                              <router-link
+                                v-if="item.shipment_id"
+                                class="text-no-underline"
+                                :to="{
+                                  name: 'shipment-detail',
+                                  params: {
+                                    id: item.shipment_id,
+                                  },
+                                }"
+                              >
+                                #{{ item.shipment_id }}
                               </router-link>
                             </td>
                             <td>{{
@@ -185,6 +201,7 @@
                           <tr v-for="(item, i) in feeRefund" :key="i">
                             <td>
                               <router-link
+                                v-if="item.package_code"
                                 class="text-no-underline"
                                 :to="{
                                   name: 'package-detail',

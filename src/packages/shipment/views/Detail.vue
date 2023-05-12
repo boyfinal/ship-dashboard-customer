@@ -19,7 +19,9 @@
           </div>
           <div class="h-i">
             <span class="h-it">Tổng giá:</span>
-            <span class="h-iv">{{ total_amount | formatPrice }}</span>
+            <span class="h-iv">{{
+              (total_amount + extraFee) | formatPrice
+            }}</span>
           </div>
           <div class="h-i">
             <span class="h-it">Trạng thái:</span>
@@ -57,49 +59,6 @@
     </div>
     <div class="page-content p-24">
       <div class="row">
-        <div class="col-md-3">
-          <div class="card-block">
-            <div class="card-header">
-              <div class="card-title">Người nhận</div>
-            </div>
-            <div class="card-content">
-              <div class="ship-recipient">
-                <p>
-                  <span class="lb">Họ và tên:</span>
-                  <span class="va">{{ firstItem.recipient }}</span>
-                </p>
-                <p>
-                  <span class="lb">Điện thoại:</span>
-                  <span class="va">{{ firstItem.phone_number }}</span>
-                </p>
-                <p>
-                  <span class="lb">Địa chỉ:</span>
-                  <span class="va">{{ firstItem.address_1 }}</span>
-                </p>
-                <p>
-                  <span class="lb">Địa chỉ phụ:</span>
-                  <span class="va">{{ firstItem.address_2 }}</span>
-                </p>
-                <p>
-                  <span class="lb">Thành phố:</span>
-                  <span class="va">{{ firstItem.city }}</span>
-                </p>
-                <p>
-                  <span class="lb">Mã vùng:</span>
-                  <span class="va">{{ firstItem.state }}</span>
-                </p>
-                <p>
-                  <span class="lb">Mã bưu điện:</span>
-                  <span class="va">{{ firstItem.zipcode }}</span>
-                </p>
-                <p>
-                  <span class="lb">Mã quốc gia:</span>
-                  <span class="va">{{ firstItem.country }}</span>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="col-md-9">
           <div class="card-block">
             <div class="card-header">
@@ -198,6 +157,78 @@
             </p-pagination>
           </div>
         </div>
+        <div class="col-md-3">
+          <div class="card-block">
+            <div class="card-header">
+              <div class="card-title">Người nhận</div>
+            </div>
+            <div class="card-content">
+              <div class="ship-recipient">
+                <p>
+                  <span class="lb">Họ và tên:</span>
+                  <span class="va">{{ firstItem.recipient }}</span>
+                </p>
+                <p>
+                  <span class="lb">Điện thoại:</span>
+                  <span class="va">{{ firstItem.phone_number }}</span>
+                </p>
+                <p>
+                  <span class="lb">Địa chỉ:</span>
+                  <span class="va">{{ firstItem.address_1 }}</span>
+                </p>
+                <p>
+                  <span class="lb">Địa chỉ phụ:</span>
+                  <span class="va">{{ firstItem.address_2 }}</span>
+                </p>
+                <p>
+                  <span class="lb">Thành phố:</span>
+                  <span class="va">{{ firstItem.city }}</span>
+                </p>
+                <p>
+                  <span class="lb">Mã vùng:</span>
+                  <span class="va">{{ firstItem.state }}</span>
+                </p>
+                <p>
+                  <span class="lb">Mã bưu điện:</span>
+                  <span class="va">{{ firstItem.zipcode }}</span>
+                </p>
+                <p>
+                  <span class="lb">Mã quốc gia:</span>
+                  <span class="va">{{ firstItem.country }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="card-block"
+            style="margin-bottom: 60px;"
+            v-if="extraFees.length"
+          >
+            <div class="card-header">
+              <div class="card-title">Chi tiết phí phát sinh</div>
+            </div>
+            <div class="card-content">
+              <div class="ship-recipient">
+                <p v-for="item in extraFees" :key="item.id">
+                  <span class="fee-col text-left">{{ item.description }}</span>
+                  <span class="fee-col text-right">{{
+                    item.amount | formatPrice
+                  }}</span>
+                </p>
+                <p
+                  style="border-top: 1px solid #EDEEEE;margin:0;padding-top:12px;"
+                >
+                  <span class="fee-col text-left" style="color: #161616;"
+                    >Tổng phí phát sinh</span
+                  >
+                  <span class="fee-col text-right" style="color: #161616;">{{
+                    extraFee | formatPrice
+                  }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -247,6 +278,16 @@ export default {
       return (
         this.shipment.id > 0 && this.shipment.status === PACKAGE_STATUS_CREATED
       )
+    },
+    extraFees() {
+      return this.shipment.extra_fees || []
+    },
+    extraFee() {
+      return this.shipment.extra_fees
+        ? this.shipment.extra_fees.reduce((total, fee) => {
+            return total + fee.amount
+          }, 0)
+        : 0
     },
     hasCancel() {
       return (
@@ -511,5 +552,9 @@ export default {
   &:hover path {
     fill: #00978c;
   }
+}
+.fee-col {
+  display: inline-block;
+  width: 50%;
 }
 </style>

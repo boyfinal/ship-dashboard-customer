@@ -13,6 +13,8 @@ export const routes = [
     name: 'shipment-detail',
     meta: {
       title: 'Chi tiết lô hàng FBA',
+      detail: true,
+      routeParent: { name: 'shipment-list' },
     },
     component: () =>
       import(/* webpackChunkName: "shipments" */ './views/Detail.vue'),
