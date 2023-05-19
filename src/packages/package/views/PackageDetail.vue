@@ -244,6 +244,12 @@
                         </span>
                       </div>
                     </div>
+                    <div class="row">
+                      <div class="col-4 mb-8">Hàng có pin:</div>
+                      <div class="col-8">
+                        {{ current.include_battery ? 'Có' : 'Không' }}
+                      </div>
+                    </div>
                   </div>
                 </div>
 

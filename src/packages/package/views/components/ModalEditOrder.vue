@@ -400,6 +400,12 @@
                       <div class="card__w-unit">cm</div>
                     </div>
                   </div>
+                  <div class="card__w-item">
+                    <label class="card__w-label"> Hàng có pin </label>
+                    <div class="card__w-input">
+                      <p-checkbox v-model="include_battery"></p-checkbox>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="card__w">
@@ -506,6 +512,7 @@ export default {
       order_number: '',
       detail: '',
       address: '',
+      include_battery: false,
       isDisable: false,
       address2: '',
       isUpdate: false,
@@ -548,6 +555,7 @@ export default {
       this.detail = this.current.detail
       this.package_prods = []
       this.product_sku = []
+      this.include_battery = this.current.include_battery
 
       if (this.current.package_products) {
         for (let i = 0; i < this.current.package_products.length; i++) {
@@ -644,6 +652,7 @@ export default {
       this.countrycode = ''
       this.service = ''
       this.address = ''
+      this.include_battery = false
       this.package_prods = []
       this.product_sku = []
       this.$validator.pause()
@@ -755,6 +764,7 @@ export default {
         service: this.service.name,
         note: this.note,
         address_2: this.address2,
+        include_battery: this.include_battery,
         package_products: package_products,
       }
 

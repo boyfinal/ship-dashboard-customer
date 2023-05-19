@@ -407,6 +407,12 @@
                         <div class="card__w-unit">cm</div>
                       </div>
                     </div>
+                    <div class="card__w-item">
+                      <label class="card__w-label"> Hàng có pin </label>
+                      <div class="card__w-input">
+                        <p-checkbox v-model="include_battery"></p-checkbox>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="card__w">
@@ -497,6 +503,7 @@ export default {
       width: '',
       height: '',
       order_number: '',
+      include_battery: false,
       service: {
         id: 0,
         name: 'Chọn một dịch vụ',
@@ -561,6 +568,7 @@ export default {
       this.height = ''
       this.countrycode = ''
       this.service = ''
+      this.include_battery = false
       this.service = {
         id: 0,
         name: 'Chọn một dịch vụ',
@@ -667,6 +675,7 @@ export default {
         service: this.service.name.trim(),
         address_2: this.address2.trim(),
         package_products: package_products,
+        include_battery: this.include_battery,
       }
       let result = await this[CREATE_PACKAGE](params)
       if (!result.id || result.error) {
@@ -755,3 +764,8 @@ export default {
   },
 }
 </script>
+<style scoped>
+.checkbox-custom {
+  position: unset;
+}
+</style>

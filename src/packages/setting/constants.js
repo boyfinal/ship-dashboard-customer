@@ -79,4 +79,9 @@ export const LIST_DEFAULT_FIELD = [
     name: 'SKU',
     require: false,
   },
+  {
+    key: 16,
+    name: 'Inclue Battery',
+    require: false,
+  },
 ]
