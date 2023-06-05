@@ -40,6 +40,7 @@ export default {
   components: {
     Loading,
     'default-layout': () => import('@layouts/v2/Index'),
+    'empty-layout': () => import('@layouts/v2/Empty'),
     'full-page-layout': () => import('@layouts/v2-full-page/Index'),
     'auth-layout': () => import('@layouts/auth/Index'),
   },

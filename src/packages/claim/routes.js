@@ -19,4 +19,14 @@ export const routes = [
     component: () =>
       import(/* webpackChunkName: "settings" */ './views/ClaimDetail.vue'),
   },
+  {
+    path: '/feedback/:id',
+    name: 'feed-back',
+    meta: {
+      title: 'Feedback Support',
+      layout: 'empty',
+    },
+    component: () =>
+      import(/* webpackChunkName: "settings" */ './views/FeedBack.vue'),
+  },
 ]

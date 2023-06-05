@@ -17,6 +17,8 @@ export const PUSH_MESSAGE = 'pushMessage'
 export const APPEND_MESSAGE = 'appendMessage'
 export const SET_MESSAGES = 'setMessages'
 export const COUNT_TICKET = 'countTicket'
+export const FETCH_RATING_TICKET = 'fetchRatingTicket'
+export const RATING_TICKET = 'ratingTicket'
 
 export const state = {
   claims: [],
@@ -25,6 +27,8 @@ export const state = {
   message: [],
   countMess: 0,
   totalCount: [],
+  ratingTicket: {},
+  supports: [],
 }
 
 export const mutations = {
@@ -60,6 +64,9 @@ export const mutations = {
   },
   [COUNT_CLAIMS_BY_STATUS]: (state, payload) => {
     state.totalCount = payload
+  },
+  [FETCH_RATING_TICKET]: (state, payload) => {
+    state.ratingTicket = payload.ticket
   },
 }
 
@@ -202,5 +209,29 @@ export const actions = {
 
     commit(PUSH_MESSAGE, res.message)
     return { success: true, reply: res.message }
+  },
+  // eslint-disable-next-line
+  async [RATING_TICKET]({ commit }, payload) {
+    let res
+    res = await api.ratingTicket(payload)
+    if (!res || res.error) {
+      return { error: true, message: res.errorMessage || '' }
+    }
+    return { error: false }
+  },
+
+  async [FETCH_RATING_TICKET]({ commit }, id) {
+    const res = await api.fetchRatingTicket(id)
+    if (!res || res.error) {
+      return {
+        error: true,
+        message: res.errorMessage || '',
+        statusCode: res.statusCode,
+      }
+    }
+    commit(FETCH_RATING_TICKET, res)
+    return {
+      error: false,
+    }
   },
 }

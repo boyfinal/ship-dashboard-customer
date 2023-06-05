@@ -82,4 +82,10 @@ export default {
   reply(id, payload) {
     return http.post(`/tickets/${id}/messages`, payload)
   },
+  fetchRatingTicket(id) {
+    return http.get(`/tickets/info/${id}`)
+  },
+  ratingTicket(payload) {
+    return http.post(`/tickets/rating`, payload)
+  },
 }

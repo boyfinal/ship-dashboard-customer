@@ -19,6 +19,7 @@
     "@chenfengyuan/vue-countdown": "^1.1.5",
     "@mdi/font": "^3.9.97",
     "@tweenjs/tween.js": "^17.6.0",
+    "awesome-vue-star-rating": "^1.0.9",
     "chart.js": "^2.9.4",
     "crypto-js": "^3.3.0",
     "date-fns": "^2.16.1",

@@ -7,7 +7,9 @@
             class="page-header__info"
             :class="{ 'grip-5-col': !current.estimate_date_process }"
           >
-            <div class="info-package">Mã vận đơn:</div>
+            <div class="info-package" style="padding-left: 48px;"
+              >Mã vận đơn:</div
+            >
             <div class="info-package">Dịch vụ </div>
             <div class="info-package">Last mile tracking </div>
             <div class="info-package">Ngày tạo </div>
@@ -15,7 +17,35 @@
               >Ngày xử lý dự kiến:
             </div>
             <div class="info-package">Trạng thái</div>
-            <div class="package-code"
+            <div
+              class="package-code"
+              style="padding-left: 48px;position: relative;"
+            >
+              <p-tooltip
+                v-if="current.is_insured"
+                :label="'Đơn có bảo hiểm'"
+                size="large"
+                position="top"
+                type="dark"
+                :active="true"
+              >
+                <inline-svg
+                  class="in-icon"
+                  :src="require('@assets/img/insure.svg')"
+                ></inline-svg>
+              </p-tooltip>
+              <p-tooltip
+                v-else
+                :label="'Đơn chưa bảo hiểm'"
+                size="large"
+                position="top"
+                type="dark"
+                :active="true"
+              >
+                <inline-svg
+                  class="in-icon"
+                  :src="require('@assets/img/no_insure.svg')"
+                ></inline-svg> </p-tooltip
               >{{ current.code_package || 'N/A' }}
               <span
                 @click="showContent"
